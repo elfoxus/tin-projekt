@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql
+    restart: always
+    ports:
+      - ${MYSQL_PORT}:3306 # first port is exposed, second port is internal
+    command:
+      - --default-authentication-plugin=mysql_native_password
+    environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
