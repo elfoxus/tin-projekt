@@ -1,0 +1,10 @@
+{
+  "name": "tin-projekt",
+  "version": "1.0.0",
+  "description": "Projekt z przedmiotu TIN",
+  "scripts": {
+    "prepare": "cd client && npm install && npm run build && mv build ../server/public || move build ../server/public",
+    "build-docker": "cd server && docker build -t recipes .",
+    "start-docker": "cd server && docker compose up"
+  }
+}
