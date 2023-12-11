@@ -36,6 +36,20 @@ npm run build-docker
 npm run start-docker
 ```
 
+Do uruchomienia należy dodać również plik `.env` w folderze `server` z następującą zawartością:
+
+```dotenv
+MYSQL_HOST=
+MYSQL_PORT=
+MYSQL_USER=
+MYSQL_PASSWORD=
+MYSQL_DATABASE=
+MYSQL_ROOT_PASSWORD=
+SERVER_PORT=
+```
+
+Plik ten jest wykorzystywany przy użyciu docker compose, jak i w przypadku uruchomienia z poziomu NodeJS.
+
 Spowoduje to uruchomienie kontenerów Dockera z aplikacją backendową oraz bazą danych MySQL.
 
 ### Uruchomienie z poziomu NodeJS
