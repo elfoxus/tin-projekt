@@ -19,21 +19,20 @@ app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// server only starts if database connection is successful
 db.execute('SELECT 1')
     .then(([rows, fields]) => {
         console.log('Database connected');
-        console.log('Starting server...');
-        const port = process.env.SERVER_PORT;
-        const server = app.listen(port, () => {
-            console.log(`Server available at: http://localhost:${port}`);
-        });
     })
     .catch(err => {
-        console.log('Error connecting to database, server has not started');
+        console.log('Error connecting to database.');
         console.log(err);
     });
 
+console.log('Starting server...');
+const port = process.env.SERVER_PORT;
+const server = app.listen(port, () => {
+    console.log(`Server available at: http://localhost:${port}`);
+});
 
 
 
