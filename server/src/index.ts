@@ -1,5 +1,4 @@
-import { __dirname} from "./config.js";
-import express from 'express';
+import express, {Application} from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
@@ -7,7 +6,7 @@ import { router } from './routes/config.js'
 import db from "./services/database.js";
 
 
-const app = express();
+const app: Application = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());

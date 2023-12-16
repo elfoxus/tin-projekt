@@ -145,3 +145,6 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# docker mysql data
+/server/mysql/
