@@ -46,6 +46,7 @@ MYSQL_PASSWORD=
 MYSQL_DATABASE=
 MYSQL_ROOT_PASSWORD=
 SERVER_PORT=
+DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
 ```
 
 Plik ten jest wykorzystywany przy użyciu docker compose, jak i w przypadku uruchomienia z poziomu NodeJS.
@@ -64,3 +65,19 @@ Projekt składa się z dwóch modułów:
 
 - `server` - backend(nodejs, expressjs),
 - `client` - frontend (react).
+
+## Baza danych
+
+### Schemat bazy danych
+
+![Schemat bazy danych](./docs/database.png)
+
+### Setup bazy danych
+
+W projekcie korzystam z bazy danych MySQL. W projekcie wykorzystywany jest ORM Prisma. Zapewnia on automatyczne
+generowanie schematu bazy danych na podstawie modeli oraz migracje.
+
+Projektując bazę danych skorzystałem z MySQL Workbench. Następnie na podstawie utworzonego schematu wygenerowałem SQL.
+Jest to plik `init.sql`. Uruchomiłem ten plik na czystej bazie MySQL. Następnie wygenerowałem modele prismy przy użyciu
+komendy `npx prisma db pull`. W ten sposób wygenerowałem modele prisma na podstawie istniejącej bazy danych.
+

@@ -148,3 +148,9 @@ yarn-error.log*
 
 # docker mysql data
 /server/mysql/
+
+# build frontend files
+/server/public/
+
+# ide
+.idea/

@@ -6,10 +6,11 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 COPY tsconfig.json ./
+COPY prisma ./prisma/
 
 USER node
 
-RUN npm ci && npm cache clean --force
+RUN npm ci && npm cache clean --force && npx prisma generate
 
 COPY --chown=node:node ./src ./src
 COPY --chown=node:node ./public ./public

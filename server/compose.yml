@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 services:
   mysql:
     image: mysql
@@ -14,6 +14,12 @@ services:
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
         - ./mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "${MYSQL_USER}", "--password=${MYSQL_PASSWORD}"]
+      start_period: 3s
+      interval: 5s
+      timeout: 5s
+      retries: 10
   recipes:
     image: recipes
     restart: always
@@ -26,5 +32,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       SERVER_PORT: ${SERVER_PORT}
+      DATABASE_URL: mysql://node:recipespass@mysql:3306/recipes
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
