@@ -1,24 +1,29 @@
-import express, {Application} from 'express';
-import path from 'path';
-import bodyParser from 'body-parser';
-import cookieParser from "cookie-parser";
-import { router } from './routes/routes'
-import { PrismaClient } from '@prisma/client'
 import dotenv from "dotenv";
+import path from 'path';
 
 dotenv.config({
     path: path.join(__dirname, '..', '.env')
 });
 
+import express, {Application} from 'express';
+
+import bodyParser from 'body-parser';
+import cookieParser from "cookie-parser";
+import { router } from './routes/routes'
+import { PrismaClient } from '@prisma/client'
+import {prisma} from "./services/db/prisma";
+
+
 const app: Application = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public'))); // static files
 // api
-app.use('/api', router)
+app.use('/api', router);
 // serve react app files
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
@@ -37,8 +42,7 @@ const server = app.listen(port, () => {
 });
 
 async function databaseTest() {
-    const prisma = new PrismaClient();
-    return await prisma.$connect();
+    return prisma.$connect();
 }
 
 
