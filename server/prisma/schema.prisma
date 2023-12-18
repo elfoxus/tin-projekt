@@ -101,15 +101,8 @@ model registration {
   token       String   @db.VarChar(36)
 }
 
-model role {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(15)
-  user user[]
-}
-
 model user {
   id                Int                 @id @default(autoincrement())
-  role_id           Int
   username          String              @unique(map: "username_UNIQUE") @db.VarChar(45)
   email             String              @unique(map: "email_UNIQUE") @db.VarChar(255)
   password          String              @db.VarChar(255)
@@ -121,7 +114,10 @@ model user {
   recipe            recipe[]
   recipe_rating     recipe_rating[]
   recipe_review     recipe_review[]
-  role              role                @relation(fields: [role_id], references: [id], onUpdate: NoAction, map: "fk_user_role")
+  role              Role                @default(USER)
+}
 
-  @@index([role_id], map: "fk_user_category_idx")
+enum Role {
+  USER
+  ADMIN
 }
