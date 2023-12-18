@@ -80,4 +80,4 @@ generowanie schematu bazy danych na podstawie modeli oraz migracje.
 Projektując bazę danych skorzystałem z MySQL Workbench. Następnie na podstawie utworzonego schematu wygenerowałem SQL.
 Jest to plik `init.sql`. Uruchomiłem ten plik na czystej bazie MySQL. Następnie wygenerowałem modele prismy przy użyciu
 komendy `npx prisma db pull`. W ten sposób wygenerowałem modele prisma na podstawie istniejącej bazy danych.
-
+Aby wygenerować customowego clienta na podstawie modeli prisma należy wykonać komendę `npx prisma generate`.
