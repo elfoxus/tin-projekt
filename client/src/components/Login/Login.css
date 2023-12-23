@@ -1,0 +1,49 @@
+.form-elem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-elem > span {
+    display: flex;
+    gap: 10px;
+    padding-right: 5px;
+}
+
+.form-elem > span > input {
+    font-size: 14px;
+    height: 20px;
+    flex: 1;
+}
+
+#submit {
+    border: 0px;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    background-color: var(--yellow-main);
+    border: 2px solid var(--yellow-main);
+    transition: all 0.2s ease-in-out;
+}
+
+#submit:hover {
+    cursor: pointer;
+    animation: jelly 0.5s;
+}
+
+@keyframes jelly {
+    0%,
+    100% {
+        transform: scale(1, 1);
+    }
+    25% {
+        transform: scale(0.9, 1.1);
+    }
+    50% {
+        transform: scale(1.1, 0.9);
+    }
+    75% {
+        transform: scale(0.95, 1.05);
+    }
+}

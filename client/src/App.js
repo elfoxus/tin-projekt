@@ -1,27 +1,48 @@
-import React, { Component, useEffect } from 'react';
-import logo from './logo.svg';
-import axios from "axios";
+import React, { Component } from 'react';
 import './App.css';
+import {BrowserRouter, Navigate, Route, Routes, useParams} from 'react-router-dom';
+import NotFound from './components/NotFound/NotFound';
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import Login from "./components/Login/Login";
+import Registration from "./components/Registration/Registration";
+import RecipesView from "./components/RecipesView/RecipesView";
 
-const App = () => {
+class App extends Component {
+    render() {
+        return (
+            <BrowserRouter>
+                <Header/>
+                <Routes>
+                    <Route path="/"  element={<RecipesView url='/api/recipes' title='Recipes' />} />
+                    <Route path="/category/:name" element={<CategoryRecipesView/>} />
+                    <Route path="/dish/:name" element={<DishRecipesView/>} />
+                    <Route path="/login" element={<Login/>} />
+                    <Route path="/registration" element={<Registration/>} />
+                    <Route path="/404" element={<NotFound />} />
+                    <Route path="*" element={<Navigate to="/404" />} />
+                </Routes>
+                <Footer/>
+                <div className="floating"></div>
+            </BrowserRouter>
+        );
+    }
+}
 
-    useEffect(() => {
-        axios.get('/api')
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error));
-        }, []);
+const CategoryRecipesView = () => {
+    let { name } = useParams();
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+        <RecipesView url={'/api/recipes/category/' + name } title={'Kategoria: ' + name} />
+    )
+}
+
+const DishRecipesView = () => {
+    let { name } = useParams();
+
+    return (
+        <RecipesView url={'/api/recipes/dish/' + name } title={'Danie: ' + name} />
+    )
 }
 
 export default App;

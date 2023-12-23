@@ -8,15 +8,15 @@ datasource db {
 }
 
 model category {
-  id     Int      @id @default(autoincrement())
-  name   String   @db.VarChar(255)
-  recipe recipe[]
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  recipe_has_category recipe_has_category[]
 }
 
 model dish {
-  id     Int      @id @default(autoincrement())
-  name   String   @db.VarChar(255)
-  recipe recipe[]
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(255)
+  recipe_has_dish recipe_has_dish[]
 }
 
 model favourite_recipes {
@@ -32,25 +32,23 @@ model favourite_recipes {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model recipe {
-  id                Int                 @id @default(autoincrement())
-  category_id       Int
-  dish_id           Int
-  author_id         Int?
-  name              String              @db.VarChar(50)
-  description       String?             @db.VarChar(511)
-  cook_time         DateTime            @db.Time(0)
-  servings          Int
-  image_id          String?             @db.VarChar(36)
-  favourite_recipes favourite_recipes[]
-  category          category            @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_category1")
-  dish              dish                @relation(fields: [dish_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_dish1")
-  user              user?               @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_user1")
-  recipe_rating     recipe_rating[]
-  recipe_review     recipe_review[]
-  recipe_step       recipe_step[]
+  id                  Int                   @id @default(autoincrement())
+  author_id           Int?
+  name                String                @unique(map: "name_UNIQUE") @db.VarChar(50)
+  description         String?               @db.VarChar(511)
+  cook_time           DateTime              @db.Time(0)
+  servings            Int
+  image_id            String?               @db.VarChar(36)
+  favourite_recipes   favourite_recipes[]
+  ingredient          ingredient[]
+  user                user?                 @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_user1")
+  recipe_has_category recipe_has_category[]
+  recipe_has_dish     recipe_has_dish[]
+  recipe_has_tag      recipe_has_tag[]
+  recipe_rating       recipe_rating[]
+  recipe_review       recipe_review[]
+  recipe_step         recipe_step[]
 
-  @@index([category_id], map: "fk_recipe_category1_idx")
-  @@index([dish_id], map: "fk_recipe_dish1_idx")
   @@index([author_id], map: "fk_recipe_user1_idx")
 }
 
@@ -81,9 +79,9 @@ model recipe_review {
 
 model recipe_step {
   id          Int    @id @default(autoincrement())
-  recipe_id   Int
   description String @db.VarChar(255)
   number      Int
+  recipe_id   Int
   recipe      recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_step_recipe1")
 
   @@index([recipe_id], map: "fk_recipe_step_recipe1_idx")
@@ -103,6 +101,7 @@ model registration {
 
 model user {
   id                Int                 @id @default(autoincrement())
+  role              Role
   username          String              @unique(map: "username_UNIQUE") @db.VarChar(45)
   email             String              @unique(map: "email_UNIQUE") @db.VarChar(255)
   password          String              @db.VarChar(255)
@@ -114,7 +113,54 @@ model user {
   recipe            recipe[]
   recipe_rating     recipe_rating[]
   recipe_review     recipe_review[]
-  role              Role                @default(USER)
+}
+
+model ingredient {
+  id        Int    @id
+  name      String @db.VarChar(255)
+  recipe_id Int
+  recipe    recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ingredients_recipe1")
+
+  @@index([recipe_id], map: "fk_ingredients_recipe1_idx")
+}
+
+model recipe_has_category {
+  recipe_id   Int
+  category_id Int
+  category    category @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_category_category1")
+  recipe      recipe   @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_category_recipe1")
+
+  @@id([recipe_id, category_id])
+  @@index([category_id], map: "fk_recipe_has_category_category1_idx")
+  @@index([recipe_id], map: "fk_recipe_has_category_recipe1_idx")
+}
+
+model recipe_has_dish {
+  recipe_id Int
+  dish_id   Int
+  dish      dish   @relation(fields: [dish_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_dish_dish1")
+  recipe    recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_dish_recipe1")
+
+  @@id([recipe_id, dish_id])
+  @@index([dish_id], map: "fk_recipe_has_dish_dish1_idx")
+  @@index([recipe_id], map: "fk_recipe_has_dish_recipe1_idx")
+}
+
+model recipe_has_tag {
+  recipe_id       Int
+  tag_id Int
+  recipe          recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_tag_recipe1")
+  tag             tag    @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_recipe_has_tag_tag1")
+
+  @@id([recipe_id, tag_id])
+  @@index([recipe_id], map: "fk_recipe_has_tag_recipe1_idx")
+  @@index([tag_id], map: "fk_recipe_has_tag_tag1_idx")
+}
+
+model tag {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(255)
+  recipe_has_tag recipe_has_tag[]
 }
 
 enum Role {

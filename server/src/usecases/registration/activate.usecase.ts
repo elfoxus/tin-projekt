@@ -2,7 +2,7 @@ import {PrismaClient} from "@prisma/client";
 import {prisma} from "../../services/db/prisma";
 
 
-export default function activate(token: string): Promise<void> {
+export default function activate(token: string): Promise<any> {
     return prisma.registration.findFirst({
             where: {
                 token: token

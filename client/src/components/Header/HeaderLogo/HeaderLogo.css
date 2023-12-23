@@ -1,0 +1,91 @@
+.header-logo > h1 {
+    font-size: 30px;
+    font-weight: 600;
+    background-image: linear-gradient(to right , var(--yellow-main) 0%, gold 25%, var(--yellow-main) 100%);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    margin: 10px 0;
+    background-position: -100%;
+    background-size: 50%;
+    animation: animated-gradient 8s infinite alternate-reverse;
+}
+
+.header-wrapper {
+    position: relative;
+    padding: 0px 10px;
+    margin: 10px 0;
+}
+
+.header-wrapper span {
+    position: absolute;
+    background-color: var(--yellow-main);
+    transition: transform 0.1s ease;
+}
+
+.header-wrapper .bottom,
+.header-wrapper .top {
+    height: 2px;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+}
+
+.header-wrapper .left,
+.header-wrapper .right {
+    width: 2px;
+    top: 0;
+    bottom: 0;
+    transform: scaleY(0);
+}
+
+.header-wrapper .bottom {
+    bottom: 0;
+    transform-origin: bottom right;
+}
+
+.header-wrapper .header-logo:hover ~ .bottom {
+    transform-origin: bottom left;
+    transform: scaleX(1);
+}
+
+.header-wrapper .right {
+    right: 0;
+    transform-origin: top right;
+    transition-delay: 0.05s;
+}
+
+.header-logo:hover ~ .right {
+    transform-origin: bottom right;
+    transform: scaleY(1);
+}
+
+.header-wrapper .top {
+    top: 0;
+    transform-origin: top left;
+    transition-delay: 0.15s;
+}
+
+.header-logo:hover ~ .top {
+    transform-origin: top right;
+    transform: scaleX(1);
+}
+
+.header-wrapper .left {
+    left: 0;
+    transform-origin: bottom left;
+    transition-delay: 0.25s;
+}
+
+.header-logo:hover ~ .left {
+    transform-origin: top left;
+    transform: scaleY(1);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
+}
