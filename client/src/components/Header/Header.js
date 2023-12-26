@@ -10,22 +10,22 @@ const Header = () => {
 
     const pages = [
         {
-            text: 'Home',
+            text: 'Strona główna',
             url: '/',
             id: 'home'
         },
         {
-            text: 'Categories',
+            text: 'Kategorie',
             url: '/categories',
             id: 'categories',
         },
         {
-            text: 'Dishes',
+            text: 'Dania',
             url: '/dishes',
             id: 'dishes'
         },
         {
-            text: 'About us',
+            text: 'O nas',
             url: '/about-us',
             id: 'about-us'
         }

@@ -4,7 +4,7 @@ import Section from "../Section/Section";
 
 const Registration = () => {
     return (
-        <Section title="Logowanie" wrapperClasses="shrinked-panel centered-panel">
+        <Section title="Rejestracja" wrapperClasses="shrinked-panel centered-panel">
             <form>
                 <div className="form-elem">
                     <label htmlFor="name">Imię:</label>

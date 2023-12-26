@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.css';
-import {Box, Container, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Box, Container, Typography, Link} from "@mui/material";
+// import {Link} from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -13,7 +13,7 @@ const Footer = () => {
             }}>
                 <Typography variant={"body2"} color={"primary.light"} align={"center"}>
                     {'Copyright © '}
-                    <Link to="/">
+                    <Link href="/" color={"primary.light"}>
                         Przepisy Kulinarne
                     </Link>{' '}
                     {new Date().getFullYear()}

@@ -14,7 +14,7 @@ const RecipesView = ({url, title = ""}) => {
                     setRecipes(response.data)
                 })
                 .catch(error => console.log(error));
-        }, []);
+        }, [url]);
 
         return (
             <Section title={title}>
