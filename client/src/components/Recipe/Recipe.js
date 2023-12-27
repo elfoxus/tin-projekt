@@ -8,12 +8,8 @@ import {getMinutes, getHours} from "date-fns";
 import AlarmRoundedIcon from '@mui/icons-material/AlarmRounded';
 import BookmarksOutlinedIcon from '@mui/icons-material/BookmarksOutlined';
 import Grid from '@mui/material/Unstable_Grid2';
-
-const StyleRating = styled(Rating)({
-    '& .MuiRating-iconEmpty': {
-        color: 'rgba(100,100,100)'
-    },
-});
+import Comments from "./Comments/Comments";
+import {StyledRating} from "./StyledRating/StyledRating";
 
 
 const Recipe = () => {
@@ -46,54 +42,58 @@ const Recipe = () => {
 
                 </Section>
             :
-                <Section>
-                    <Box sx={{display: 'flex', gap: 2, flexDirection: 'column'}}>
-                        <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', justifyContent: 'space-between'}}>
-                            <Box sx={{display: 'flex', gap: 2, alignItems: 'center'}}>
-                                <Typography variant={'h5'}>{recipe.name}</Typography>
-                                <StyleRating
-                                    name="recipe-rating"
-                                    size="large"
-                                    value={recipe.rating}
-                                    readOnly={true}
-                                    precision={0.5}
-                                ></StyleRating>
+                <Fragment>
+                    <Section>
+                        <Box sx={{display: 'flex', gap: 2, flexDirection: 'column'}}>
+                            <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', justifyContent: 'space-between'}}>
+                                <Box sx={{display: 'flex', gap: 2, alignItems: 'center'}}>
+                                    <Typography variant={'h5'}>{recipe.name}</Typography>
+                                    <StyledRating
+                                        name="recipe-rating"
+                                        size="large"
+                                        value={recipe.rating}
+                                        readOnly={true}
+                                        precision={0.5}
+                                    ></StyledRating>
+                                </Box>
                             </Box>
-                        </Box>
-                        <img src={"http://localhost:3001/" + recipe.image_path} alt={recipe.name} className="recipe-img"/>
-                        <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
-                            <BookmarksOutlinedIcon />
-                            <ButtonGroup size="small" variant="outlined" aria-label="Powiązane informacje z przepisem">
-                                {recipe.dishes.map(dish => <Button>{dish}</Button>)}
-                                {recipe.categories.map(category => <Button>{category}</Button>)}
-                                {recipe.tags.map(tag => <Button>{tag}</Button>)}
-                            </ButtonGroup>
-                        </Box>
-                        <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
-                            <AlarmRoundedIcon />
-                            <Typography>
-                                Czas gotowania: {getHours(recipe.cook_time) > 0 ? getHours(recipe.cook_time) + ' godz. ' : ''} {getMinutes(recipe.cook_time)} min.
+                            <img src={"http://localhost:3001/" + recipe.image_path} alt={recipe.name} className="recipe-img"/>
+                            <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
+                                <BookmarksOutlinedIcon />
+                                <ButtonGroup size="small" variant="outlined" aria-label="Powiązane informacje z przepisem">
+                                    {recipe.dishes.map(dish => <Button>{dish}</Button>)}
+                                    {recipe.categories.map(category => <Button>{category}</Button>)}
+                                    {recipe.tags.map(tag => <Button>{tag}</Button>)}
+                                </ButtonGroup>
+                            </Box>
+                            <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
+                                <AlarmRoundedIcon />
+                                <Typography>
+                                    Czas gotowania: {getHours(recipe.cook_time) > 0 ? getHours(recipe.cook_time) + ' godz. ' : ''} {getMinutes(recipe.cook_time)} min.
+                                </Typography>
+                            </Box>
+                            <Typography variant={'body1'}>
+                                {recipe.description}
                             </Typography>
+                            <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 12, sm: 12}}>
+                                <Grid item xs={12} sm={4}>
+                                    <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline'}}>
+                                        <Typography variant={'h6'}>Składniki</Typography>
+                                        <Typography variant={'subtitle1'}> / {recipe.servings} porcje</Typography>
+                                    </Box>
+                                    <Box>
+                                        {recipe.ingredients.map(ingredient => <Typography key={ingredient} variant={'body1'}>{ingredient}</Typography>)}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} sm={8}>
+                                    <Typography variant={'h6'}>Przygotowanie</Typography>
+                                </Grid>
+                            </Grid>
                         </Box>
-                        <Typography variant={'body1'}>
-                            {recipe.description}
-                        </Typography>
-                        <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 12, sm: 12}}>
-                            <Grid item xs={12} sm={4}>
-                                <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline'}}>
-                                    <Typography variant={'h6'}>Składniki</Typography>
-                                    <Typography variant={'subtitle1'}> / {recipe.servings} porcje</Typography>
-                                </Box>
-                                <Box>
-                                    {recipe.ingredients.map(ingredient => <Typography variant={'body1'}>{ingredient}</Typography>)}
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <Typography variant={'h6'}>Przygotowanie</Typography>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Section>}
+                    </Section>
+                    <Comments recipeId={id} rating={recipe.rating} />
+                </Fragment>
+            }
         </Fragment>
 
     )

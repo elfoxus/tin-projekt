@@ -3,6 +3,7 @@ import getAllRecipes from "../usecases/recipes/get-all-recipes.usecase";
 import getAllRecipesByDish from "../usecases/recipes/get-recipes-by-dish.usecase";
 import getAllRecipesByCategory from "../usecases/recipes/get-recipes-by-category.usecase";
 import getRecipeDetails from "../usecases/recipes/get-recipe.usecase";
+import getRecipeComments from "../usecases/comments/get-recipe-comments.usecase";
 
 const recipesController = express.Router();
 
@@ -40,10 +41,22 @@ recipesController.get('/:id', (req, res) => {
             res.status(500).json({message: "Error getting recipe"});
         });
     } catch (e) {
-        res.status(406).json({message: "Error getting recipe"});
+        res.status(404).json({message: "Error getting recipe"});
     }
+});
 
+recipesController.get('/:id/comment', (req, res) => {
+    try {
+        let id = parseInt(req.params.id);
 
+        getRecipeComments(id).then(comments => {
+            res.status(200).json(comments);
+        }).catch(e => {
+            res.status(500).json({message: "Error getting comments"});
+        });
+    } catch (e) {
+        res.status(404).json({message: "Error getting comments"});
+    }
 });
 
 recipesController.route('/dish/:dishName')

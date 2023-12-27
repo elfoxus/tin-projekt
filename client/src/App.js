@@ -11,27 +11,31 @@ import AboutUs from "./components/AboutUs/AboutUs";
 import LinkListView from "./components/LinkListView/LinkListView";
 import Recipe from "./components/Recipe/Recipe";
 import InternalProblemPage from "./components/InternalProblemPage/InternalProblemPage";
+import {Container} from "@mui/material";
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
                 <Header/>
-                <Routes>
-                    <Route path="/"  element={<RecipesView url='/api/recipes' title='Recipes' />} />
-                    <Route path="/recipe/:id" element={<Recipe />} />
-                    <Route path="/category/:name" element={<CategoryRecipesView/>} />
-                    <Route path="/tag/:name" element={<TagRecipesView/>} />
-                    <Route path="/dish/:name" element={<DishRecipesView/>} />
-                    <Route path="/categories" element={<LinkListView url='/api/categories' sub_url="category" title='Kategorie' />} />
-                    <Route path="/dishes" element={<LinkListView url='/api/dishes' sub_url="dish" title='Dania' />} />
-                    <Route path="/login" element={<Login/>} />
-                    <Route path="/registration" element={<Registration/>} />
-                    <Route path="/about-us" element={<AboutUs/>} />
-                    <Route path="/404" element={<NotFound />} />
-                    <Route path="/500" element={<InternalProblemPage />} />
-                    <Route path="*" element={<Navigate to="/404" />} />
-                </Routes>
+                <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
+                    <Routes>
+                        <Route path="/"  element={<RecipesView url='/api/recipes' title='Recipes' />} />
+                        <Route path="/recipe/:id" element={<Recipe />} />
+                        <Route path="/category/:name" element={<CategoryRecipesView/>} />
+                        <Route path="/tag/:name" element={<TagRecipesView/>} />
+                        <Route path="/dish/:name" element={<DishRecipesView/>} />
+                        <Route path="/categories" element={<LinkListView url='/api/categories' sub_url="category" title='Kategorie' />} />
+                        <Route path="/dishes" element={<LinkListView url='/api/dishes' sub_url="dish" title='Dania' />} />
+                        <Route path="/login" element={<Login/>} />
+                        <Route path="/registration" element={<Registration/>} />
+                        <Route path="/about-us" element={<AboutUs/>} />
+                        <Route path="/404" element={<NotFound />} />
+                        <Route path="/500" element={<InternalProblemPage />} />
+                        <Route path="*" element={<Navigate to="/404" />} />
+                    </Routes>
+                </Container>
+
                 <Footer/>
                 <div className="floating"></div>
             </BrowserRouter>
