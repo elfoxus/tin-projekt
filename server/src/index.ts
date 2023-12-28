@@ -12,15 +12,19 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import { router } from './routes/routes'
 import { prisma } from "./services/db/prisma";
+import { logger } from "./middleware/logger";
+import errorHandler  from "./middleware/errorHandler";
 
 
 const app: Application = express();
 
+app.use(logger);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.CLIENT_URL,
+    credentials: true,
 }))
 app.use(express.static(path.join(__dirname, '..', 'public'))); // static files
 app.use('/images', express.static(path.join(__dirname, '..', 'images'))); // static files
@@ -30,6 +34,7 @@ app.use('/api', router);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
+app.use(errorHandler);
 
 console.log('Starting server...');
 databaseTest()

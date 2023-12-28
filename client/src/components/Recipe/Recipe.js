@@ -1,7 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import Section from "../Section/Section";
 import {useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import {Box, Button, ButtonGroup, CircularProgress, Rating, styled, Typography} from "@mui/material";
 import './Recipe.css';
 import {getMinutes, getHours} from "date-fns";
@@ -10,6 +9,7 @@ import BookmarksOutlinedIcon from '@mui/icons-material/BookmarksOutlined';
 import Grid from '@mui/material/Unstable_Grid2';
 import Comments from "./Comments/Comments";
 import {StyledRating} from "./StyledRating/StyledRating";
+import api from "../../services/api";
 
 
 const Recipe = () => {
@@ -21,7 +21,7 @@ const Recipe = () => {
     const [recipe, setRecipe] = useState({});
 
     useEffect(() => {
-        axios.get('/api/recipes/' + id)
+        api.get('/recipes/' + id)
             .then(response => {
                 setRecipe(response.data);
                 setLoading(false);
@@ -90,8 +90,8 @@ const Recipe = () => {
                                 </Grid>
                             </Grid>
                         </Box>
+                        <Comments recipeId={id} rating={recipe.rating} />
                     </Section>
-                    <Comments recipeId={id} rating={recipe.rating} />
                 </Fragment>
             }
         </Fragment>

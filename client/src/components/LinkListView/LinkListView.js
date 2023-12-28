@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import Section from "../Section/Section";
 import {Link} from "@mui/material";
+import api from "../../services/api";
 
 const LinkListView = ({url, sub_url, title = ""}) => {
 
     const [links, setLinks] = useState([]);
 
     useEffect(() => {
-        axios.get(url)
+        api.get(url)
             .then(response => {
                 var links = response.data.map(link => {
                     return {

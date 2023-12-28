@@ -4,6 +4,7 @@ import getAllRecipesByDish from "../usecases/recipes/get-recipes-by-dish.usecase
 import getAllRecipesByCategory from "../usecases/recipes/get-recipes-by-category.usecase";
 import getRecipeDetails from "../usecases/recipes/get-recipe.usecase";
 import getRecipeComments from "../usecases/comments/get-recipe-comments.usecase";
+import verifyJWT from "../middleware/authRoutes";
 
 const recipesController = express.Router();
 
@@ -19,13 +20,17 @@ function getPageFromQuery(pageQuery: any) {
     return page;
 }
 
-recipesController.get('/', (req, res) => {
-    let pageQuery = req.query.page;
-    let page = getPageFromQuery(pageQuery);
-    getAllRecipes(page).then(recipes => {
-        res.status(200).json(recipes);
+recipesController.route('/')
+    .get( (req, res) => {
+        let pageQuery = req.query.page;
+        let page = getPageFromQuery(pageQuery);
+        getAllRecipes(page).then(recipes => {
+            res.status(200).json(recipes);
+        });
+    })
+    .post(verifyJWT, (req, res) => {
+        res.send("Not implemented"); // TODO: Implement
     });
-});
 
 recipesController.get('/:id', (req, res) => {
     try {
@@ -45,19 +50,23 @@ recipesController.get('/:id', (req, res) => {
     }
 });
 
-recipesController.get('/:id/comment', (req, res) => {
-    try {
-        let id = parseInt(req.params.id);
+recipesController.route('/:id/comment')
+    .get((req, res) => {
+        try {
+            let id = parseInt(req.params.id);
 
-        getRecipeComments(id).then(comments => {
-            res.status(200).json(comments);
-        }).catch(e => {
-            res.status(500).json({message: "Error getting comments"});
-        });
-    } catch (e) {
-        res.status(404).json({message: "Error getting comments"});
-    }
-});
+            getRecipeComments(id).then(comments => {
+                res.status(200).json(comments);
+            }).catch(e => {
+                res.status(500).json({message: "Error getting comments"});
+            });
+        } catch (e) {
+            res.status(404).json({message: "Error getting comments"});
+        }
+    })
+    .post(verifyJWT, (req, res) => {
+        res.send("Not implemented"); // TODO: Implement
+    });
 
 recipesController.route('/dish/:dishName')
     .get((req, res) => {

@@ -1,9 +1,8 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import Section from "../../Section/Section";
-import axios from "axios";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {StyledRating} from "../StyledRating/StyledRating";
 import {format} from 'date-fns';
+import api from "../../../services/api";
 
 const Comments = ({recipeId, rating}) => {
 
@@ -11,7 +10,7 @@ const Comments = ({recipeId, rating}) => {
         const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            axios.get('/api/recipes/' + recipeId + '/comment')
+            api.get('/recipes/' + recipeId + '/comment')
                 .then(response => {
                     setComments(response.data);
                     console.log(response.data);
@@ -24,15 +23,12 @@ const Comments = ({recipeId, rating}) => {
         return (
             <Fragment>
                 {loading ?
-                    <Section>
                         <Box sx={{display: 'flex', gap: 1, alignItems: 'baseline'}}>
                             <CircularProgress />
                             <Typography variant={'h4'}>Trwa ładowanie...</Typography>
                         </Box>
 
-                    </Section>
                 :
-                    <Section>
                         <Box sx={{display: 'flex', gap: 2, flexDirection: 'column'}}>
                             <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', justifyContent: 'space-between'}}>
                                 <Box sx={{display: 'flex', gap: 2, alignItems: 'center'}}>
@@ -61,7 +57,6 @@ const Comments = ({recipeId, rating}) => {
                                     ))}
                             </Box>
                         </Box>
-                    </Section>
                 }
             </Fragment>
         )

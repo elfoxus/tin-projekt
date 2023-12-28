@@ -14,7 +14,7 @@ const Footer = () => {
                 <Typography variant={"body2"} color={"primary.light"} align={"center"}>
                     {'Copyright © '}
                     <Link href="/" color={"primary.light"}>
-                        Przepisy Kulinarne
+                        Recipes Online
                     </Link>{' '}
                     {new Date().getFullYear()}
                     {'.'}

@@ -1,15 +1,13 @@
 import React from "react";
 import "./Section.css";
-import {Box, Typography} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 
-const Section = ({title = null, children, wrapperClasses = ""}) => {
+const Section = ({title = null, children}) => {
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
-            <Box className={"section-wrapper".concat(" ").concat(wrapperClasses)}>
-                {title && <Typography variant="h3" className="section-title">{title}</Typography>}
-                <div>{children}</div>
-            </Box>
-        </Box>
+        <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'baseline', marginTop: 2, height: '100%'}} >
+            {title && <Typography component="h1" variant="h5" paddingLeft={1}>{title}</Typography>}
+            {children}
+        </Container>
     )
 }
 

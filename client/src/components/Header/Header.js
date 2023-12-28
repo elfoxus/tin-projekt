@@ -1,16 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Link} from "react-router-dom";
 import "./Header.css";
-import {AppBar, Box, Button, Container, Toolbar} from "@mui/material";
+import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
 import HeaderLogo from "./HeaderLogo/HeaderLogo";
-import axios from "axios";
 import MenuLink from "./MenuLink/MenuLink";
+import useAuth from "../../services/auth";
+import {AccountCircle} from "@mui/icons-material";
+import api from "../../services/api";
 
 const Header = () => {
 
+    const { username, role } = useAuth();
+
     const pages = [
         {
-            text: 'Strona główna',
+            text: 'Wszystkie',
             url: '/',
             id: 'home'
         },
@@ -28,6 +32,16 @@ const Header = () => {
             text: 'O nas',
             url: '/about-us',
             id: 'about-us'
+        },
+        {
+            text: 'Logowanie',
+            url: '/login',
+            id: 'login'
+        },
+        {
+            text: 'Rejestracja',
+            url: '/register',
+            id: 'register'
         }
     ]
 
@@ -35,7 +49,7 @@ const Header = () => {
     const [dishes, setDishes] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/categories')
+        api.get('/categories')
             .then(res => {
                 var cats = res.data.map(category => {
                     return {
@@ -48,8 +62,9 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        axios.get('/api/dishes')
+        api.get('/dishes')
             .then(res => {
+                console.log(res.data);
                 var dishs = res.data.map(dish => {
                     return {
                         text: dish,
@@ -79,6 +94,25 @@ const Header = () => {
                             </Button>
                         </Link>
                     </Box>
+                    {username ? (
+                        <IconButton sx={{marginLeft: 'auto'}}>
+                            <AccountCircle sx={{ color: 'white' }} />
+                        </IconButton>
+                    ) : (
+                        <Fragment>
+                            <Link to={pages[4].url} id={pages[4].id}>
+                                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    {pages[4].text}
+                                </Button>
+                            </Link>
+                            <Link to={pages[5].url} id={pages[5].id}>
+                                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    {pages[5].text}
+                                </Button>
+                            </Link>
+                        </Fragment>
+                    )}
+
                 </Toolbar>
             </Container>
         </AppBar>

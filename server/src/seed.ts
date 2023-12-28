@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { set } from 'date-fns/set'
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -37,7 +38,7 @@ async function createAdmin() {
         update: {},
         create: {
             email: 'admin@localhost',
-            password: 'admin',
+            password: bcrypt.hashSync('admin', 10),
             role: 'ADMIN',
             birthdate: new Date(),
             name: 'Admin',

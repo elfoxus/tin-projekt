@@ -11,6 +11,7 @@ import AboutUs from "./components/AboutUs/AboutUs";
 import LinkListView from "./components/LinkListView/LinkListView";
 import Recipe from "./components/Recipe/Recipe";
 import InternalProblemPage from "./components/InternalProblemPage/InternalProblemPage";
+import Activation from "./components/Activation/Activation";
 import {Container} from "@mui/material";
 
 class App extends Component {
@@ -20,15 +21,16 @@ class App extends Component {
                 <Header/>
                 <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
                     <Routes>
-                        <Route path="/"  element={<RecipesView url='/api/recipes' title='Recipes' />} />
+                        <Route path="/"  element={<RecipesView url='/recipes' title='Recipes' />} />
                         <Route path="/recipe/:id" element={<Recipe />} />
                         <Route path="/category/:name" element={<CategoryRecipesView/>} />
                         <Route path="/tag/:name" element={<TagRecipesView/>} />
                         <Route path="/dish/:name" element={<DishRecipesView/>} />
-                        <Route path="/categories" element={<LinkListView url='/api/categories' sub_url="category" title='Kategorie' />} />
-                        <Route path="/dishes" element={<LinkListView url='/api/dishes' sub_url="dish" title='Dania' />} />
+                        <Route path="/categories" element={<LinkListView url='/categories' sub_url="category" title='Kategorie' />} />
+                        <Route path="/dishes" element={<LinkListView url='/dishes' sub_url="dish" title='Dania' />} />
                         <Route path="/login" element={<Login/>} />
-                        <Route path="/registration" element={<Registration/>} />
+                        <Route path="/register" element={<Registration/>} />
+                        <Route path="/activate/:token" element={<Activation />} />
                         <Route path="/about-us" element={<AboutUs/>} />
                         <Route path="/404" element={<NotFound />} />
                         <Route path="/500" element={<InternalProblemPage />} />
@@ -47,7 +49,7 @@ const CategoryRecipesView = () => {
     let { name } = useParams();
 
     return (
-        <RecipesView url={'/api/recipes/category/' + name } title={'Kategoria: ' + name} />
+        <RecipesView url={'/recipes/category/' + name } title={'Kategoria: ' + name} />
     )
 }
 
@@ -55,7 +57,7 @@ const DishRecipesView = () => {
     let { name } = useParams();
 
     return (
-        <RecipesView url={'/api/recipes/dish/' + name } title={'Danie: ' + name} />
+        <RecipesView url={'/recipes/dish/' + name } title={'Danie: ' + name} />
     )
 }
 
@@ -63,7 +65,7 @@ const TagRecipesView = () => {
     let { name } = useParams();
 
     return (
-        <RecipesView url={'/api/recipes/tag/' + name } title={'Tag: ' + name} />
+        <RecipesView url={'/recipes/tag/' + name } title={'Tag: ' + name} />
     )
 }
 

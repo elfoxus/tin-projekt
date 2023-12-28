@@ -9,10 +9,11 @@ body {
   height: 100svh;
   font-family: 'Abhaya Libre', serif;
   margin: 0px;
-  color: var(--main-color); /* default color */
+  /*color: var(--main-color); !* default color *!*/
   position: relative;
   background: linear-gradient(to bottom, #020111 10%, #3a3a52 100%);
   background: linear-gradient(to bottom, #071B26 0%,#071B26 30%,#8A3B12 80%,#240E03 100%);
+  background: linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -37,59 +38,50 @@ a, a:-webkit-any-link {
 }
 
 /* Override generic styles */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
-}
+/*input:-webkit-autofill,*/
+/*input:-webkit-autofill:hover,*/
+/*input:-webkit-autofill:focus {*/
+/*  -webkit-box-shadow: 0 0 0px 1000px white inset;*/
+/*}*/
 
-input:focus-visible,
-textarea:focus-visible {
-  outline: none;
-}
+/*input:focus-visible,*/
+/*textarea:focus-visible {*/
+/*  outline: none;*/
+/*}*/
 
-textarea {
-  min-width: 400px;
-  max-width: 600px;
-  min-height: 50px;
-  max-height: 300px;
-}
+/*textarea {*/
+/*  min-width: 400px;*/
+/*  max-width: 600px;*/
+/*  min-height: 50px;*/
+/*  max-height: 300px;*/
+/*}*/
 
-input, textarea {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid transparent;
-  color: var(--main-color);
-  transition: background-color 0.3s ease-in-out;
-  transition: border 0.3s ease-in-out;
-}
+/*input, textarea {*/
+/*  background: rgba(255, 255, 255, 0.1);*/
+/*  border: 1px solid transparent;*/
+/*  color: var(--main-color);*/
+/*  transition: background-color 0.3s ease-in-out;*/
+/*  transition: border 0.3s ease-in-out;*/
+/*}*/
 
-::file-selector-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid transparent;
-  color: var(--main-color);
-  transition: background-color 0.3s ease-in-out;
-  transition: border 0.3s ease-in-out;
-}
+/*::file-selector-button {*/
+/*  background: rgba(255, 255, 255, 0.1);*/
+/*  border: 1px solid transparent;*/
+/*  color: var(--main-color);*/
+/*  transition: background-color 0.3s ease-in-out;*/
+/*  transition: border 0.3s ease-in-out;*/
+/*}*/
 
-textarea:hover, textarea:focus-visible, input:focus-visible, input:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: var(--yellow-main);
-}
+/*textarea:hover, textarea:focus-visible, input:focus-visible, input:hover {*/
+/*  background: rgba(255, 255, 255, 0.2);*/
+/*  border-color: var(--yellow-main);*/
+/*}*/
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.shrinked-panel {
-  min-width: 400px !important;
-}
-
-.centered-panel {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
+/*form {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  gap: 10px;*/
+/*}*/
 
 /* fancy dot */
 

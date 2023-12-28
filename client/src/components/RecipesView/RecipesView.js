@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import './RecipesView.css';
-import axios from "axios";
 import RecipePreview from './RecipePreview/RecipePreview'
 import Section from "../Section/Section";
+import Box from "@mui/material/Box";
+import api from "../../services/api";
 
-const RecipesView = ({url, title = ""}) => {
+const RecipesView = ({url, title = "", text = ""}) => {
 
         const [recipes, setRecipes] = useState([]);
 
         useEffect(() => {
-            axios.get(url)
+            api.get(url)
                 .then(response => {
                     setRecipes(response.data)
                 })
@@ -18,11 +18,19 @@ const RecipesView = ({url, title = ""}) => {
 
         return (
             <Section title={title}>
-                <div className="recipes">
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    flexWrap: { xs: 'no-wrap', md: 'wrap'},
+                    alignItems: { xs: 'center', md: 'flex-start' },
+                    alignSelf: { xs: 'center', md: 'flex-start' },
+                    justifyContent: { xs: 'center', md: 'flex-start' }
+                }}
+                >
                     {recipes.map(item => {
                         return RecipePreview(item.id, item.name, item.description, item.image_path);
                     })}
-                </div>
+                </Box>
             </Section>
         )
 }
