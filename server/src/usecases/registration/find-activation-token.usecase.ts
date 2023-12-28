@@ -12,9 +12,6 @@ export default function findActivationToken(token: string): Promise<UserActivati
                 email: registration.email,
                 password: registration.password,
                 role: 'USER',
-                birthdate: registration.birthdate,
-                name: registration.name,
-                surname: registration.surname,
                 username: registration.username,
                 activate_time: new Date()
             } : null;

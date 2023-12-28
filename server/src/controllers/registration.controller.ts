@@ -12,8 +12,11 @@ registerController.post('/', (req: Request<{}, {}, RegistrationRequest>, res: Re
             res.status(201).json({message: 'User registered.'});
         })
         .catch(err => {
-            console.log(err);
-            res.status(400).json({message: err})
+            res.status(400)
+                .json({
+                    message: err.message,
+                    invalidFields: err.invalidFields
+                })
         });
 })
 
@@ -21,30 +24,37 @@ export default registerController;
 
 function basicValidation(registrationRequest: RegistrationRequest): Promise<RegistrationRequest> {
     return new Promise((resolve, reject) => {
+        const invalidFields: string[] = [];
+
         if (!registrationRequest.username) {
-            reject('Username is required.');
+            invalidFields.push('username');
         }
         if (!registrationRequest.email) {
-            reject('Email is required.');
+            invalidFields.push('email');
         }
         if (!registrationRequest.password) {
-            reject('Password is required.');
-        }
-        if (!registrationRequest.name) {
-            reject('Name is required.');
-        }
-        if (!registrationRequest.surname) {
-            reject('Surname is required.');
-        }
-        if (!registrationRequest.birthdate) {
-            reject('Birthdate is required.');
+            invalidFields.push('password');
         }
         if(!registrationRequest.email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)) {
-            reject('Email is not valid.');
+            invalidFields.push('email');
         }
         if(!registrationRequest.username.match(/^[a-zA-Z0-9_.+-]{5,45}$/)) { // 5-45 characters
-            reject('Username is not valid.');
+            invalidFields.push('username');
         }
+
+        if (invalidFields.length > 0) {
+            const error: RegistrationValidationError = new RegistrationValidationError('Invalid fields.', invalidFields);
+            reject(error);
+        }
+
         resolve(registrationRequest);
     });
+}
+
+class RegistrationValidationError extends Error {
+    invalidFields: string[];
+    constructor(message: string, invalidFields: string[]) {
+        super(message);
+        this.invalidFields = invalidFields;
+    }
 }

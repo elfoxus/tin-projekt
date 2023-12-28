@@ -16,9 +16,6 @@ export default function register(registration: RegistrationRequest): void {
             username: registration.username,
             email: registration.email,
             password: hash,
-            name: registration.name,
-            surname: registration.surname,
-            birthdate: new Date(registration.birthdate),
             create_time: new Date(),
             token: token
         };

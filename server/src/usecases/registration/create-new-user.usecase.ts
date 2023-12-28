@@ -7,9 +7,6 @@ export const createNewUser = (user: UserActivationData): Promise<User> => {
             username: user.username,
             password: user.password,
             role: user.role,
-            birthdate: user.birthdate,
-            name: user.name,
-            surname: user.surname,
             email: user.email,
             activate_time: user.activate_time
         }

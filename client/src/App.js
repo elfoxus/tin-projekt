@@ -13,6 +13,7 @@ import Recipe from "./components/Recipe/Recipe";
 import InternalProblemPage from "./components/InternalProblemPage/InternalProblemPage";
 import Activation from "./components/Activation/Activation";
 import {Container} from "@mui/material";
+import ThankYou from "./components/ThankYou/ThankYou";
 
 class App extends Component {
     render() {
@@ -21,7 +22,7 @@ class App extends Component {
                 <Header/>
                 <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
                     <Routes>
-                        <Route path="/"  element={<RecipesView url='/recipes' title='Recipes' />} />
+                        <Route path="/"  element={<RecipesView url='/recipes' title='Przepisy' />} />
                         <Route path="/recipe/:id" element={<Recipe />} />
                         <Route path="/category/:name" element={<CategoryRecipesView/>} />
                         <Route path="/tag/:name" element={<TagRecipesView/>} />
@@ -34,6 +35,7 @@ class App extends Component {
                         <Route path="/about-us" element={<AboutUs/>} />
                         <Route path="/404" element={<NotFound />} />
                         <Route path="/500" element={<InternalProblemPage />} />
+                        <Route path="/thank-you" element={<ThankYou />} />
                         <Route path="*" element={<Navigate to="/404" />} />
                     </Routes>
                 </Container>

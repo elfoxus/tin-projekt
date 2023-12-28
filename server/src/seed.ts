@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 
 async function createData() {
     const admin = await createAdmin();
+    const user1 = await createUser();
     const dishes = await createDishes();
     const categories = await createCategories();
     const tags = await createTags();
@@ -49,6 +50,23 @@ async function createAdmin() {
     });
     console.log("Admin created with default login and password")
     return admin;
+}
+
+async function createUser() {
+    const user = await prisma.user.upsert({
+        where: {email: 'user+1@localhost'},
+        update: {},
+        create: {
+            email: 'user+1@localhost',
+            password: bcrypt.hashSync('janko', 10),
+            role: 'USER',
+            birthdate: new Date(),
+            name: 'Jan',
+            surname: 'Kowalski',
+            username: 'janko',
+            activate_time: new Date(),
+        }
+    })
 }
 
 async function createTags() {

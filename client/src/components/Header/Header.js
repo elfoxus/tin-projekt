@@ -64,7 +64,6 @@ const Header = () => {
     useEffect(() => {
         api.get('/dishes')
             .then(res => {
-                console.log(res.data);
                 var dishs = res.data.map(dish => {
                     return {
                         text: dish,
