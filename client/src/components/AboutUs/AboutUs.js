@@ -4,6 +4,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const AboutUs = () => {
+
+    const dots = [
+        "Starannie wyselekcjonowane przepisy",
+        "Wsparcie społeczności kulinarnych entuzjastów",
+        "Nowe inspiracje kulinarnych"
+    ]
+
     return (
         <Section title="O nas">
             <Box sx={{paddingLeft: 1}}>
@@ -12,11 +19,9 @@ const AboutUs = () => {
                 <Typography variant={"body1"}>Chcielibyśmy również podziękować naszej wspaniałej społeczności kulinarnych entuzjastów za wsparcie i dzielenie się swoimi pomysłami na naszej stronie. To dzięki Wam możemy stale rozwijać naszą kolekcję przepisów i dostarczać nowe inspiracje kulinarne.</Typography>
                 <Typography variant={"body1"}>Zapraszamy do eksploracji naszych przepisów i dołączenia do naszej społeczności kulinarnych miłośników.</Typography>
                 <Typography variant={"body1"}>Gotując z naszymi przepisami masz gwarancję:
-                    <ul>
-                        <li>Starannie wyselekcjonowanych przepisów</li>
-                        <li>Wsparcia społeczności kulinarnych entuzjastów</li>
-                        <li>Nowych inspiracji kulinarnych</li>
-                    </ul>
+                    {dots.map((dot, index) =>
+                        <Typography sx={{ marginLeft: 2}} variant={"body1"} key={index}>- {dot}</Typography>
+                    )}
                 </Typography>
             </Box>
         </Section>

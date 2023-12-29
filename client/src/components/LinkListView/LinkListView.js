@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Section from "../Section/Section";
-import {Link} from "@mui/material";
+import Button from "@mui/material/Button";
 import api from "../../services/api";
+import {Box} from "@mui/material";
 
 const LinkListView = ({url, sub_url, title = ""}) => {
 
@@ -23,11 +24,16 @@ const LinkListView = ({url, sub_url, title = ""}) => {
 
     return (
         <Section title={title}>
-            <ul className="links">
+            <Box sx={{
+                marginTop: 1,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1
+            }}>
                 {links.map(item =>
-                    <li><Link href={item.url}>{item.text}</Link></li>
+                    <Button variant="outlined" href={item.url} key={item.text}>{item.text}</Button>
                 )}
-            </ul>
+            </Box>
         </Section>
     )
 }

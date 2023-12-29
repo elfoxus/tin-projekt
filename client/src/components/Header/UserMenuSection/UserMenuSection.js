@@ -1,11 +1,12 @@
 import React, {Fragment, useContext} from "react";
 import {UserContext} from "../../../services/auth";
-import {Button, IconButton, MenuItem} from "@mui/material";
+import {Chip, IconButton, MenuItem} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {bindHover, bindMenu, usePopupState} from "material-ui-popup-state/hooks";
 import HoverMenu from "material-ui-popup-state/HoverMenu";
 import {logout} from "../../../services/authUtils";
+import Avatar from "@mui/material/Avatar";
 
 
 const UserMenuSection = ({children}) => {
@@ -30,9 +31,11 @@ const UserMenuSection = ({children}) => {
         <Fragment>
             {state.username ? (
                 <Fragment>
-                    <IconButton sx={{marginLeft: 'auto'}} {...bindHover(popupState)}>
-                        <AccountCircle sx={{ color: 'white' }} />
-                    </IconButton>
+                    <Chip avatar={<Avatar>{state.username.substring(0, 1).toUpperCase()}</Avatar>}
+                          {...bindHover(popupState)}
+                          sx={{marginLeft: 'auto', backgroundColor: 'primary.light', color: 'white'}}
+                          label={'Witaj ' + state.username}
+                    />
                     <HoverMenu
                         {...bindMenu(popupState)}
                         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
