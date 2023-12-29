@@ -19,6 +19,7 @@ const AxiosInterceptor = ({children}) => {
         const inter1 = api.interceptors.request.use((config) => {
             const token = localStorage.getItem('token');
             if (token) {
+                console.log('add bearer token to request')
                 config.headers['Authorization'] = `Bearer ${token}`;
             }
             return config;
@@ -26,15 +27,20 @@ const AxiosInterceptor = ({children}) => {
 
         const inter2 = api.interceptors.response.use((response) => response,
             async (error) => {
+                console.log('interceptor error', error)
                 const originalRequest = error.config;
+                console.log('originalRequest', originalRequest)
                 if (!(error.response.status === 401 && !originalRequest._retry && originalRequest.url === '/api/auth/refresh')) {
+                    console.log('reject error');
                     return Promise.reject(error);
                 }
 
                 originalRequest._retry = true;
                 try {
+                    console.log('refresh token')
                     const response = await axios.get('/api/auth/refresh', {withCredentials: true});
                     localStorage.setItem('token', response.data.accessToken);
+                    console.log('retry request')
                     return axios(originalRequest);
                 } catch (e) {
                     // redirect to login page

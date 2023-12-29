@@ -6,7 +6,9 @@ const prisma = new PrismaClient();
 
 async function createData() {
     const admin = await createAdmin();
-    const user1 = await createUser();
+    const user1 = await createUser('janko', 1);
+    const user2 = await createUser('franko', 2);
+    const moderator = await createModerator();
     const dishes = await createDishes();
     const categories = await createCategories();
     const tags = await createTags();
@@ -20,6 +22,39 @@ async function createData() {
         [categories.vegetarian],
         [dishes.dinner, dishes.main_dishes],
         [tags.tomato, tags.mushrooms, tags.onion, tags.garlic, tags.pasta, tags.cheese]);
+    const spagetti_vege_ingredients:{id: number, name: string}[] = await createRecipeIngredients(spaghetti_vege.id, [
+        "4 łyżki czarnej soczewicy",
+        "15 suszonych grzybów",
+        "szklanka wody",
+        "2 łyżki dowolnego oleju do soczewicy",
+        "2 łyżki sosu sojowego",
+        "1 cebula",
+        "3 marchewki",
+        "kilka łodyg selera naciowego",
+        "2 ząbki czosnku",
+        "1 łyżeczka cynamonu cejlońskiego",
+        "1 gwiazdka anyżu",
+        "szczpyta soli",
+        "1/4 szklanki wytrawnego wina (opcjonalnie)",
+        "butelka passaty pomidorowej",
+        "makaron spaghetti lub inny",
+        "płatki drożdżowe do posypania",
+        "świeża bazylia do posypania",
+        "sól",
+        "pieprz",
+        "oliwa z oliwek do sosu",
+        "2 łyżeczki ziół prowansalskich do sosu",
+    ])
+    const spaghetti_vege_steps = await createRecipeSteps(spaghetti_vege.id, [
+        {no: 1, description: "Soczewicę i grzyby zalej sosem sojowym, wodą i olejem. Wstaw na mały ogień i gotuj pod przykryciem 20-25 minut do wchłonięcia płynów."},
+        {no: 2, description: "Cebulę, marchewki i seler pokrój w kostkę. Czosnek posiekaj. Na patelni rozgrzej olej, dodaj cebulę i smaż przez 2 minuty. Dodaj marchewkę, seler i czosnek. Smaż aż warzywa zmiękną."},
+        {no: 3, description: "Dodaj cynamon, anyż i sól. "},
+        {no: 4, description: "Jeśli używasz wina, dodaj je teraz i gotuj, aż odparuje."},
+        {no: 5, description: "W międzyczasie zblenduj soczewicę z grzybami na gładką masę. Dodaj do warzyw i wymieszaj."},
+        {no: 6, description: "Dodaj passatę pomidorową i zioła prowansalskie. Gotuj przez 10 minut."},
+        {no: 7, description: "Makaron ugotuj al dente w osolonej wodzie. Odcedź i wymieszaj z sosem."},
+        {no: 8, description: "Podawaj z posypanymi płatkami drożdżowymi i świeżą bazylią."}
+    ]);
     const spaghetti_con_carne = await createRecipe("Spaghetti z mięsem",
         0,
         30,
@@ -30,7 +65,57 @@ async function createData() {
         [categories.meat],
         [dishes.dinner, dishes.main_dishes],
         [tags.tomato, tags.mushrooms, tags.onion, tags.garlic, tags.pasta, tags.cheese, tags.beef]);
+    const spaghetti_con_carne_steps = await createRecipeSteps(spaghetti_con_carne.id, [
+        {no: 1, description: "Włącz patelnię na bardzo niski ogień. Dodaj oliwę oraz zioła prowansalskie. W momenci kiedy zioła zaczną pachnieć, zdejmij do miski."},
+        {no: 2, description: "Cebulę i czosnek posiekaj. Na patelni rozgrzej oliwę, dodaj cebulę i smaż przez 2 minuty. Dodaj czosnek i smaż przez kolejną minutę."},
+        {no: 3, description: "Zdejmij z ognia i przełóż do miski."},
+        {no: 4, description: "Na tej samej patelni podsmaż mięso mielone. Dodaj do cebuli i czosnku."},
+        {no: 5, description: "Dodaj passatę pomidorową. Gotuj przez 10 minut."},
+        {no: 6, description: "Makaron ugotuj al dente w osolonej wodzie. Odcedź i wymieszaj z sosem."},
+        {no: 7, description: "Podawaj z posypanymi płatkami drożdżowymi lub startym serem i świeżą bazylią."}
+    ]);
+    const comment = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
+    const spaghetti_con_carne_ingredients:{id: number, name: string}[] = await createRecipeIngredients(spaghetti_con_carne.id, [
+        "0,5kg mięsa mielonego",
+        "1 cebula",
+        "2 ząbki czosnku",
+        "1 butelka passaty pomidorowej",
+        "2 łyżeczki ziół prowansalskich do sosu",
+        "parmezan do posypania lub płatki drożdżowe",
+        "sól",
+        "pieprz",
+        "oliwa z oliwek do sosu",
+        "makaron spaghetti lub inny",
+        "świeża bazylia do posypania"
+    ]);
     console.log("Fake data created")
+}
+
+async function createComment(recipeId: number, username: string, msg: string) {
+
+    return prisma.user.findUnique({where: {username: username}})
+        .then(user => {
+
+            if (!user) {
+                throw new Error("User not found");
+            }
+            let userId = user.id;
+            return prisma.recipe_review.createMany({
+                data:
+                    {
+                        date: new Date(),
+                        comment: msg,
+                        recipe_id: recipeId,
+                        user_id: userId
+                    }
+
+                })
+        })
+        .then(data => {
+            return {
+                message: "Comment added"
+            }
+        })
 }
 
 async function createAdmin() {
@@ -52,21 +137,79 @@ async function createAdmin() {
     return admin;
 }
 
-async function createUser() {
-    const user = await prisma.user.upsert({
-        where: {email: 'user+1@localhost'},
+async function createUser(username: string, it: number) {
+    return prisma.user.upsert({
+        where: {email: `user+${it}@localhost`},
         update: {},
         create: {
-            email: 'user+1@localhost',
-            password: bcrypt.hashSync('janko', 10),
+            email: `user+${it}@localhost`,
+            password: bcrypt.hashSync(username, 10),
             role: 'USER',
             birthdate: new Date(),
             name: 'Jan',
             surname: 'Kowalski',
-            username: 'janko',
+            username: username,
             activate_time: new Date(),
         }
     })
+}
+
+async function createModerator() {
+    const admin = await prisma.user.upsert({
+        where: {email: 'mod@localhost'},
+        update: {},
+        create: {
+            email: 'mod@localhost',
+            password: bcrypt.hashSync('moderator', 10),
+            role: 'MODERATOR',
+            birthdate: new Date(),
+            name: 'Moderator',
+            surname: 'Moderator',
+            username: 'moderator',
+            activate_time: new Date(),
+        }
+    });
+    console.log("Moderator created with default login and password")
+    return admin;
+}
+
+async function createRecipeIngredients(recipeId: number, ingredients: string[]): Promise<any> {
+    const createIngredient = (name: string) => {
+        return prisma.ingredient.create({
+            data: {
+                name: name,
+                recipe_id: recipeId
+            }
+        });
+    }
+
+    var created = ingredients.map(async (ingredient) => {
+        const recipeIngredient = await createIngredient(ingredient);
+        console.log(`Created ingredient ${recipeIngredient.name} for recipe ${recipeId}`);
+        return recipeIngredient;
+    });
+
+    return Promise.all(created);
+}
+
+async function createRecipeSteps(recipeId: number, steps: {no: number, description: string}[]): Promise<any> {
+    const createStep = (no: number, desc: string) => {
+        return prisma.recipe_step.create({
+            data: {
+                number: no,
+                description: desc,
+                recipe_id: recipeId
+            }
+        });
+    }
+
+    var created = steps.map(async (step) => {
+        const recipeStep = await createStep(step.no, step.description);
+        console.log(`Created step ${recipeStep.number} for recipe ${recipeId}`);
+        return recipeStep;
+    })
+
+    return Promise.all(created);
 }
 
 async function createTags() {

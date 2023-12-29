@@ -65,7 +65,7 @@ model recipe_rating {
 }
 
 model recipe_review {
-  user_id   Int      @default(autoincrement())
+  user_id   Int
   recipe_id Int
   date      DateTime @db.DateTime(0)
   comment   String   @db.VarChar(255)
@@ -113,7 +113,7 @@ model user {
 }
 
 model ingredient {
-  id        Int    @id
+  id        Int    @id @default(autoincrement())
   name      String @db.VarChar(255)
   recipe_id Int
   recipe    recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ingredients_recipe1")
@@ -163,4 +163,5 @@ model tag {
 enum Role {
   USER
   ADMIN
+  MODERATOR
 }

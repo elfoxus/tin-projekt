@@ -1,12 +1,15 @@
 import React from 'react';
-import './Footer.css';
 import {Box, Container, Typography, Link} from "@mui/material";
-// import {Link} from "react-router-dom";
 
 const Footer = () => {
     return (
-        <Box className="footer" sx={{
-            backgroundColor: 'primary.main'
+        <Box sx={{
+            backgroundColor: 'primary.main',
+            zIndex: 5,
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0
         }}>
             <Container maxWidth="lg" sx={{
                 py: 2

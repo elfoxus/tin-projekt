@@ -5,6 +5,9 @@ import getAllRecipesByCategory from "../usecases/recipes/get-recipes-by-category
 import getRecipeDetails from "../usecases/recipes/get-recipe.usecase";
 import getRecipeComments from "../usecases/comments/get-recipe-comments.usecase";
 import verifyJWT from "../middleware/authRoutes";
+import addCommentToRecipe from "../usecases/comments/add-comment.usecase";
+import upsertRating from "../usecases/ratings/set-recipe-rating.usecase";
+import getRecipeRatingForUser from "../usecases/ratings/get-recipe-rating.usecase";
 
 const recipesController = express.Router();
 
@@ -50,6 +53,54 @@ recipesController.get('/:id', (req, res) => {
     }
 });
 
+// -1 or 0-5
+recipesController.route('/:id/rating')
+    .get(verifyJWT, (req, res) => {
+        const user = res.locals.user;
+        try {
+            var recipeId = parseInt(req.params.id);
+        } catch (e) {
+            res.status(400).json({message: "Recipe ID is required"});
+            return;
+        }
+
+        getRecipeRatingForUser(recipeId, user.username)
+            .then(rating => {
+                res.status(200).json({rating: rating});
+            }).catch(e => {
+                if(e.message === "User not found") {
+                    res.status(400).json({message: "User does not exist"});
+                    return;
+                }
+                res.status(500).json({message: "Error getting rating"});
+            });
+    })
+    .post(verifyJWT, (req, res) => {
+        const user = res.locals.user;
+        try {
+            var recipeId = parseInt(req.params.id);
+        } catch (e) {
+            res.status(400).json({message: "Recipe ID is required"});
+            return;
+        }
+
+        const rating = req.body.rating;
+        if (typeof rating !== 'number' || rating < 0 || rating > 5) {
+            res.status(400).json({message: "Rating must be a number between 0 and 5"});
+            return;
+        }
+        upsertRating(recipeId, user.username, rating)
+            .then(message => {
+                res.status(200).json({message: message});
+            }).catch(e => {
+                if(e.message === "User not found") {
+                    res.status(400).json({message: "User does not exist"});
+                    return;
+                }
+                res.status(500).json({message: "Error adding rating"});
+            });
+    });
+
 recipesController.route('/:id/comment')
     .get((req, res) => {
         try {
@@ -65,7 +116,30 @@ recipesController.route('/:id/comment')
         }
     })
     .post(verifyJWT, (req, res) => {
-        res.send("Not implemented"); // TODO: Implement
+        const user = res.locals.user;
+        try {
+            var recipeId = parseInt(req.params.id);
+        } catch (e) {
+            res.status(400).json({message: "Recipe ID is required"});
+            return;
+        }
+
+        const comment = req.body.comment;
+        if (!comment || comment === "") {
+            res.status(400).json({message: "Comment is required"});
+            return;
+        }
+        addCommentToRecipe(recipeId, user.username, comment)
+            .then(message => {
+                res.status(200).json({message: message});
+            }).catch(e => {
+                console.log(e)
+                if(e.message === "User not found") {
+                    res.status(400).json({message: "User does not exist"});
+                    return;
+                }
+                res.status(500).json({message: "Error adding comment"});
+            });
     });
 
 recipesController.route('/dish/:dishName')

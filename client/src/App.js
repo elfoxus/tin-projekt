@@ -25,7 +25,7 @@ class App extends Component {
                 <AxiosInterceptor>
                     <AuthVerify>
                         <Header/>
-                        <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
+                        <Container sx={{paddingTop: '90px', zIndex: 4, minHeight: '100%', paddingBottom: '60px', flex: '1'}}>
                             <Routes>
                                 <Route path="/"  element={<RecipesView url='/recipes' title='Przepisy' />} />
                                 <Route path="/recipe/:id" element={<Recipe />} />
@@ -65,9 +65,7 @@ const RouterProvider = ({children}) => {
 
     useEffect(()=> {
         setRoute((prev)=> {
-                let newVar = {to: location.pathname, from: prev.to};
-                console.log(newVar)
-                return newVar;
+                return {to: location.pathname, from: prev.to};
         }
         )
     }, [location]);

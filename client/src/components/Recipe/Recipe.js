@@ -61,9 +61,9 @@ const Recipe = () => {
                             <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
                                 <BookmarksOutlinedIcon />
                                 <ButtonGroup size="small" variant="outlined" aria-label="Powiązane informacje z przepisem">
-                                    {recipe.dishes.map(dish => <Button>{dish}</Button>)}
-                                    {recipe.categories.map(category => <Button>{category}</Button>)}
-                                    {recipe.tags.map(tag => <Button>{tag}</Button>)}
+                                    {recipe.dishes.map(dish => <Button key={dish} href={'/dish/' + dish}>{dish}</Button>)}
+                                    {recipe.categories.map(category => <Button key={category} href={'/category/' + category}>{category}</Button>)}
+                                    {recipe.tags.map(tag => <Button key={tag} href={'/'}>{tag}</Button>)}
                                 </ButtonGroup>
                             </Box>
                             <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
@@ -76,21 +76,25 @@ const Recipe = () => {
                                 {recipe.description}
                             </Typography>
                             <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 12, sm: 12}}>
-                                <Grid item xs={12} sm={4}>
-                                    <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline'}}>
+                                <Grid item="true" xs={12} sm={4}>
+                                    <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', paddingBottom: 1}}>
                                         <Typography variant={'h6'}>Składniki</Typography>
                                         <Typography variant={'subtitle1'}> / {recipe.servings} porcje</Typography>
                                     </Box>
-                                    <Box>
-                                        {recipe.ingredients.map(ingredient => <Typography key={ingredient} variant={'body1'}>{ingredient}</Typography>)}
+                                    <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
+                                        {recipe.ingredients.map(ingredient => <Typography key={ingredient} variant={'body2'}>{ingredient}</Typography>)}
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12} sm={8}>
-                                    <Typography variant={'h6'}>Przygotowanie</Typography>
+                                <Grid item="true" xs={12} sm={8}>
+                                    <Typography variant={'h6'} component="h3" sx={{paddingBottom: 1}}>Przygotowanie</Typography>
+                                    <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
+                                        {recipe.steps.sort((a, b) => a.number - b.number)
+                                            .map(step => <Typography key={step.number} variant={'body1'}>{step.number}. {step.description}</Typography>)}
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Box>
-                        <Comments recipeId={id} rating={recipe.rating} />
+                        <Comments recipeId={id} />
                     </Section>
                 </Fragment>
             }

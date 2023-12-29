@@ -23,6 +23,10 @@ export default function getRecipeComments(id: number): Promise<CommentWithRating
         }
     }).then(reviews => {
         return reviews.map(review => {
+            let rating = -1;
+            if (review.user.recipe_rating.length === 1) {
+                rating = review.user.recipe_rating[0].rating
+            }
             return {
                 recipe_id: review.recipe_id,
                 user: {
@@ -31,7 +35,7 @@ export default function getRecipeComments(id: number): Promise<CommentWithRating
                 },
                 date: review.date,
                 comment: review.comment,
-                rating: review.user.recipe_rating[0].rating
+                rating: rating
             }
         })
     })

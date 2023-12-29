@@ -12,7 +12,11 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         process.env.ACCESS_TOKEN_SECRET as string,
         (err: any, decoded: any) => {
             if (err) {
-                return res.status(403).json({ message: "Forbidden" });
+                if (err.name === 'TokenExpiredError') {
+                    return res.status(401).json({ message: "Unauthorized" });
+                } else {
+                    return res.status(403).json({ message: "Forbidden" });
+                }
             }
             res.locals = {
                 ...res.locals,
