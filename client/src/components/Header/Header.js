@@ -1,16 +1,18 @@
-import React, {useState, useEffect, Fragment} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import "./Header.css";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
 import HeaderLogo from "./HeaderLogo/HeaderLogo";
 import MenuLink from "./MenuLink/MenuLink";
-import useAuth from "../../services/auth";
-import {AccountCircle} from "@mui/icons-material";
 import api from "../../services/api";
+import UserMenuSection from "./UserMenuSection/UserMenuSection";
 
 const Header = () => {
 
-    const { username, role } = useAuth();
 
     const pages = [
         {
@@ -93,25 +95,18 @@ const Header = () => {
                             </Button>
                         </Link>
                     </Box>
-                    {username ? (
-                        <IconButton sx={{marginLeft: 'auto'}}>
-                            <AccountCircle sx={{ color: 'white' }} />
-                        </IconButton>
-                    ) : (
-                        <Fragment>
-                            <Link to={pages[4].url} id={pages[4].id}>
-                                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                                    {pages[4].text}
-                                </Button>
-                            </Link>
-                            <Link to={pages[5].url} id={pages[5].id}>
-                                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                                    {pages[5].text}
-                                </Button>
-                            </Link>
-                        </Fragment>
-                    )}
-
+                    <UserMenuSection>
+                        <Link to={pages[4].url} id={pages[4].id}>
+                            <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                                {pages[4].text}
+                            </Button>
+                        </Link>
+                        <Link to={pages[5].url} id={pages[5].id}>
+                            <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                                {pages[5].text}
+                            </Button>
+                        </Link>
+                    </UserMenuSection>
                 </Toolbar>
             </Container>
         </AppBar>

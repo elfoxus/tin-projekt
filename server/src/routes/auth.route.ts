@@ -1,6 +1,7 @@
 import express from 'express'
 import loginLimiter from "../middleware/loginLimiter";
 import * as authController from "../controllers/auth.controller";
+import verifyJWT from "../middleware/authRoutes";
 
 const router = express.Router();
 

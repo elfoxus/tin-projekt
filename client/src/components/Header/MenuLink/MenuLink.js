@@ -7,7 +7,8 @@ import './MenuLink.css';
 const MenuLink = ({text, id, url, links}) => {
 
     const popupState = usePopupState({
-        variant: 'popover'
+        variant: 'popover',
+        popupId: id + '-menu',
     })
 
     return (

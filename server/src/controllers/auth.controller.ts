@@ -25,7 +25,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
             user: userData.user
         },
         process.env.ACCESS_TOKEN_SECRET as string,
-        { expiresIn: '15m' }
+        { expiresIn: '10s' }
     );
 
     const refreshToken = jwt.sign(
@@ -65,7 +65,7 @@ const refresh = asyncHandler(async (req: Request, res: Response) => {
 
             const accessToken = jwt.sign(
                 {
-                    user: user
+                    user: foundUser
                 },
                 process.env.ACCESS_TOKEN_SECRET as string,
                 { expiresIn: '10s' }
@@ -85,5 +85,6 @@ const logout = asyncHandler(async (req: Request, res: Response) => {
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true })
         .json({ message: "Logged out" });
 });
+
 
 export { login, refresh, logout };

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component, createContext, Fragment, useContext, useEffect, useState} from 'react';
 import './App.css';
-import {BrowserRouter, Navigate, Route, Routes, useParams} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes, useLocation, useParams} from 'react-router-dom';
 import NotFound from './components/NotFound/NotFound';
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -14,37 +14,104 @@ import InternalProblemPage from "./components/InternalProblemPage/InternalProble
 import Activation from "./components/Activation/Activation";
 import {Container} from "@mui/material";
 import ThankYou from "./components/ThankYou/ThankYou";
+import {AxiosInterceptor} from "./services/api";
+import AuthVerify, {UserContext} from "./services/auth";
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Header/>
-                <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
-                    <Routes>
-                        <Route path="/"  element={<RecipesView url='/recipes' title='Przepisy' />} />
-                        <Route path="/recipe/:id" element={<Recipe />} />
-                        <Route path="/category/:name" element={<CategoryRecipesView/>} />
-                        <Route path="/tag/:name" element={<TagRecipesView/>} />
-                        <Route path="/dish/:name" element={<DishRecipesView/>} />
-                        <Route path="/categories" element={<LinkListView url='/categories' sub_url="category" title='Kategorie' />} />
-                        <Route path="/dishes" element={<LinkListView url='/dishes' sub_url="dish" title='Dania' />} />
-                        <Route path="/login" element={<Login/>} />
-                        <Route path="/register" element={<Registration/>} />
-                        <Route path="/activate/:token" element={<Activation />} />
-                        <Route path="/about-us" element={<AboutUs/>} />
-                        <Route path="/404" element={<NotFound />} />
-                        <Route path="/500" element={<InternalProblemPage />} />
-                        <Route path="/thank-you" element={<ThankYou />} />
-                        <Route path="*" element={<Navigate to="/404" />} />
-                    </Routes>
-                </Container>
-
-                <Footer/>
-                <div className="floating"></div>
+                <RouterProvider>
+                <AxiosInterceptor>
+                    <AuthVerify>
+                        <Header/>
+                        <Container sx={{paddingTop: '90px', height: '100%', zIndex: 5}}>
+                            <Routes>
+                                <Route path="/"  element={<RecipesView url='/recipes' title='Przepisy' />} />
+                                <Route path="/recipe/:id" element={<Recipe />} />
+                                <Route path="/category/:name" element={<CategoryRecipesView/>} />
+                                <Route path="/tag/:name" element={<TagRecipesView/>} />
+                                <Route path="/dish/:name" element={<DishRecipesView/>} />
+                                <Route path="/categories" element={<LinkListView url='/categories' sub_url="category" title='Kategorie' />} />
+                                <Route path="/dishes" element={<LinkListView url='/dishes' sub_url="dish" title='Dania' />} />
+                                <Route path="/login" element={<PublicRoute><Login/></PublicRoute>} />
+                                <Route path="/register" element={<PublicRoute><Registration/></PublicRoute>} />
+                                <Route path="/activate/:token" element={<Activation />} />
+                                <Route path="/about-us" element={<AboutUs/>} />
+                                <Route path="/404" element={<NotFound />} />
+                                <Route path="/500" element={<InternalProblemPage />} />
+                                <Route path="/thank-you" element={<ThankYou />} />
+                                <Route path="*" element={<Navigate to="/404" />} />
+                            </Routes>
+                        </Container>
+                        <Footer/>
+                        <div className="floating"></div>
+                    </AuthVerify>
+                </AxiosInterceptor>
+                </RouterProvider>
             </BrowserRouter>
         );
     }
+}
+
+const RouterContext = createContext();
+
+const RouterProvider = ({children}) => {
+    const location = useLocation()
+    const [route, setRoute] = useState({ //--> it can be replaced with useRef or localStorage
+        to: location.pathname,
+        from: location.pathname
+    });
+
+    useEffect(()=> {
+        setRoute((prev)=> {
+                let newVar = {to: location.pathname, from: prev.to};
+                console.log(newVar)
+                return newVar;
+        }
+        )
+    }, [location]);
+
+    return <RouterContext.Provider value={route}>
+        {children}
+    </RouterContext.Provider>
+}
+
+// only when not logged in!
+const PublicRoute = ({children}) => {
+    const route = useContext(RouterContext);
+    const {state} = useContext(UserContext);
+
+    return (
+        <Fragment>
+            {state.username ?
+                 <Navigate to={(route?.from == '/login' || route?.from == '/register' ? '/' : route?.from) || '/'} />
+                : children
+            }
+        </Fragment>
+    )
+}
+
+const PrivateRoute = ({passRole = 'USER', children}) => {
+    const {state} = useContext(UserContext);
+
+    const roleMap = {
+        'USER': 0,
+        'MODERATOR': 1,
+        'ADMIN': 2
+    }
+
+    const atLeastPassRole = (role) => {
+        return roleMap[state.role] >= roleMap[role]
+    }
+
+    return (
+        <Fragment>
+            {
+                atLeastPassRole(passRole) ? children : <Navigate to='/404' />
+            }
+        </Fragment>
+    )
 }
 
 const CategoryRecipesView = () => {
