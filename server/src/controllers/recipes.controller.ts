@@ -99,7 +99,19 @@ recipesController.route('/:id/rating')
                 }
                 res.status(500).json({message: "Error adding rating"});
             });
+    })
+    .delete(verifyJWT, (req, res) => {
+        const { username, role } = res.locals.user;
+        try {
+            var recipeId = parseInt(req.params.id);
+        } catch (e) {
+            res.status(400).json({message: "Recipe ID is required"});
+            return;
+        }
+
+        res.status(501).json({message: "Not implemented"})
     });
+
 
 recipesController.route('/:id/comment')
     .get((req, res) => {
