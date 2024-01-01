@@ -1,13 +1,10 @@
-import express from 'express';
-import verifyJWT from "../middleware/authRoutes";
+import { Request, Response } from "express";
 import getFavourites from "../usecases/favourites/get-favourites.usecase";
 import addToFavourites from "../usecases/favourites/add-to-favourites.usecase";
 import removeFromFavourites from "../usecases/favourites/remove-from-favourites.usecase";
 
-const router = express.Router();
 
-router.route('/')
-    .get(verifyJWT, (req, res) => {
+const allFavourites = (req: Request, res: Response) => {
         const user = res.locals.user;
         getFavourites(user.username)
             .then(favourites => {
@@ -15,10 +12,10 @@ router.route('/')
             }).catch(e => {
                 res.status(500).json({message: "Error getting favourites"});
             })
-    });
+    };
 
-router.route('/:recipeId')
-    .post(verifyJWT, (req, res) => {
+const newFavourite = (req: Request, res: Response) => {
+
         const user = res.locals.user;
         try {
             var recipeId = parseInt(req.params.recipeId);
@@ -37,8 +34,9 @@ router.route('/:recipeId')
                 }
                 res.status(500).json({message: "Error adding to favourites"});
             });
-    })
-    .delete(verifyJWT, (req, res) => {
+};
+
+const deleteFavourite = (req: Request, res: Response) => {
         const user = res.locals.user;
         try {
             var recipeId = parseInt(req.params.recipeId);
@@ -56,6 +54,10 @@ router.route('/:recipeId')
                 }
                 res.status(500).json({message: "Error removing from favourites"});
             });
-    });
+    };
 
-export default router;
+export {
+    allFavourites,
+    newFavourite,
+    deleteFavourite
+}
