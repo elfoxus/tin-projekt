@@ -1,10 +1,9 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {RegistrationRequest} from "../model/registration";
 import register from "../usecases/registration/register.usecase";
 
-const registerController = express.Router();
 
-registerController.post('/', (req: Request<{}, {}, RegistrationRequest>, res: Response) => {
+const registration = (req: Request<{}, {}, RegistrationRequest>, res: Response) => {
     const registrationRequest: RegistrationRequest = req.body;
     basicValidation(registrationRequest)
         .then(validated => {
@@ -18,9 +17,7 @@ registerController.post('/', (req: Request<{}, {}, RegistrationRequest>, res: Re
                     invalidFields: err.invalidFields
                 })
         });
-})
-
-export default registerController;
+}
 
 function basicValidation(registrationRequest: RegistrationRequest): Promise<RegistrationRequest> {
     return new Promise((resolve, reject) => {
@@ -57,4 +54,8 @@ class RegistrationValidationError extends Error {
         super(message);
         this.invalidFields = invalidFields;
     }
+}
+
+export {
+    registration
 }
