@@ -1,13 +1,11 @@
-import express from "express";
 import findActivationToken from "../usecases/registration/find-activation-token.usecase";
 import asyncHandler from "express-async-handler"
 import jwt from "jsonwebtoken";
 import {createNewUser} from "../usecases/registration/create-new-user.usecase";
 import {UserActivationData} from "../model/user";
 
-const activationController = express.Router();
 
-activationController.get('/:token', asyncHandler( async (req, res) => {
+const activate =  asyncHandler( async (req, res) => {
     const token = req.params.token;
 
     if (!token) {
@@ -41,6 +39,6 @@ activationController.get('/:token', asyncHandler( async (req, res) => {
             }).json({ accessToken });
         })
     }
-}));
+});
 
-export default activationController;
+export { activate }
