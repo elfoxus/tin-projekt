@@ -3,6 +3,7 @@ import {activate} from "../controllers/activation.controller";
 
 const router = express.Router();
 
-router.get('/:token', activate)
+router.route('/:token')
+    .get(activate)
 
 export default router;
