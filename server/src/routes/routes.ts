@@ -8,6 +8,7 @@ import recipesRoute from "./recipes.route";
 import registrationRoute from "./registration.route";
 import tagsRoute from "./tags.route";
 import usersRoute from "./users.route";
+import commentsRoute from "./comments.route";
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/recipes', recipesRoute);
 router.use('/register', registrationRoute);
 router.use('/tags', tagsRoute);
 router.use('/users', usersRoute);
+router.use('/comments', commentsRoute);
 
 export { router };

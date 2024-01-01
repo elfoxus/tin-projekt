@@ -5,6 +5,12 @@ import api from "../../../services/api";
 import AddNewComment from "./AddNewComment/AddNewComment";
 import {UserContext} from "../../../services/auth";
 import dayjs from "dayjs";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import Divider from '@mui/material/Divider';
+import {getRandomColor} from "../../../services/colors";
 
 const Comments = ({recipeId}) => {
 
@@ -13,6 +19,7 @@ const Comments = ({recipeId}) => {
         const [added, setAdded] = useState(false);
         const [rating, setRating] = useState(3);
         const [reloadRating, setReloadRating] = useState(false);
+        const [authorColors, setAuthorColors] = useState(new Map());
         const {state} = useContext(UserContext);
 
         const callbackWhenAdded = () => {
@@ -22,7 +29,29 @@ const Comments = ({recipeId}) => {
         useEffect(() => {
             api.get('/recipes/' + recipeId + '/comment')
                 .then(response => {
-                    setComments(response.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+
+                    response.data.map((review) => {
+                        if (!authorColors.has(review.user.id)) {
+                            authorColors.set(review.user.id, getRandomColor());
+                        }
+                    })
+
+                    var reviews = response.data
+                        .map((comment) => {
+                            return {
+                                id: comment.id,
+                                date: comment.date,
+                                comment: comment.comment,
+                                rating: comment.rating,
+                                recipe_id: comment.recipe_id,
+                                user: {
+                                    id: comment.user.id,
+                                    username: comment.user.username,
+                                    color: authorColors.get(comment.user.id)
+                                }
+                            }})
+                        .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    setComments(reviews);
                     setLoading(false);
                 }).catch(error => {
                     setLoading(false);
@@ -50,7 +79,17 @@ const Comments = ({recipeId}) => {
             });
         }
 
-        return (
+    function deleteComment(id) {
+            api.delete('/comments/' + id)
+                .then(response => {
+                    setAdded(!added); // reload comments
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+    }
+
+    return (
             <Fragment>
                 {loading ?
                         <Box sx={{display: 'flex', gap: 1, alignItems: 'baseline'}}>
@@ -74,20 +113,54 @@ const Comments = ({recipeId}) => {
                                 </Box>
                             </Box>
                             <AddNewComment recipeId={recipeId} callback={callbackWhenAdded} />
-                            <Box>
+                            <Stack gap={1}divider={<Divider orientation="horizontal" flexItem />} >
                                 {comments.map(comment => (
-                                    <Box key={comment.user.id + '-' + comment.date.toString()}>
-                                        <Box sx={{display: 'flex', gap: 1, alignItems: 'baseline'}}>
-                                            <Typography variant={'subtitle1'}>{comment.user.username}</Typography>
-                                            <Typography variant={'subtitle2'}>{dayjs(comment.date).format('HH:mm:ss dd.MM.yyyy')}</Typography>
-                                            {comment.rating >= 0 && <StyledRating name="recipe-rating" size="small" value={comment.rating} readOnly={true} precision={0.5}></StyledRating>}
+                                    <Stack alignItems="flex-start" direction="row" gap={2} key={comment.user.id + '-' + comment.date.toString()}>
+                                        <Box sx={{padding: 1}}>
+                                            <Avatar sx={{bgcolor: comment.user.color }}>
+                                                {comment.user.username.substring(0, 1).toUpperCase()}
+                                            </Avatar>
                                         </Box>
-                                        <Typography variant={'body2'}>
-                                            {comment.comment}
-                                        </Typography>
-                                    </Box>
+                                        <Stack sx={
+                                            {
+                                                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                                borderRadius: 1,
+                                                padding: 1,
+                                                minWidth: {
+                                                    md: '75%',
+                                                },
+                                                flex: {
+                                                    xs: '1 1 0',
+                                                    md: '0 1 0',
+                                                }
+                                            }
+                                        }>
+                                            <Stack>
+                                                <Typography variant={'subtitle1'} sx={{fontWeight: '600'}} >{comment.user.username}</Typography>
+                                                <Typography variant={'body2'}>
+                                                    {comment.comment}
+                                                </Typography>
+                                            </Stack>
+                                            <Stack direction="row" alignItems="center" gap={1}>
+                                                <Stack direction="row" gap={1}>
+                                                    <Typography variant={'caption'} >{dayjs(comment.date).format('HH:mm:ss ddd MMM YYYY')}</Typography>
+                                                    {comment.rating >= 0 && <StyledRating name="recipe-rating" size="small" value={comment.rating} readOnly={true} precision={0.5}></StyledRating>}
+                                                </Stack>
+                                                <Box sx={{ marginLeft: 'auto' }}>
+                                                    {((state.username === comment.user.username)
+                                                        || state.role === 'ADMIN'
+                                                        || state.role === 'MODERATOR') &&
+                                                        <IconButton onClick={() => deleteComment(comment.id)}>
+                                                            <DeleteOutlineOutlinedIcon />
+                                                        </IconButton>
+                                                    }
+                                                </Box>
+
+                                            </Stack>
+                                        </Stack>
+                                    </Stack>
                                     ))}
-                            </Box>
+                            </Stack>
                         </Box>
                 }
             </Fragment>

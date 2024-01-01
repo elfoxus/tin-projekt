@@ -15,8 +15,8 @@ const atLeastPassRole = (a: 'USER' | 'MODERATOR' | 'ADMIN', b: 'USER' | 'MODERAT
 const allUsers = (req: Request, res: Response) => {
     const { username, role } = res.locals.user;
 
-    if (!atLeastPassRole(role, 'MODERATOR')) {
-        res.status(401).json({ message: "Unauthorized" });
+    if (!atLeastPassRole(role, 'ADMIN')) {
+        res.status(403).json({ message: "Unauthorized" });
     } else {
         getAllUsers().then(users => {
             res.json(users);
@@ -28,7 +28,7 @@ const newUserRole = (req: Request, res: Response) => {
     const { username, role } = res.locals.user;
 
     if (!atLeastPassRole(role, 'ADMIN')) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(403).json({ message: "Unauthorized" });
     } else {
         const { id } = req.params;
         const { role } = req.body;

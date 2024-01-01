@@ -50,7 +50,7 @@ const UserMenuSection = ({children}) => {
                         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                         transformOrigin={{vertical: 'top', horizontal: 'center'}}
                     >
-                        {(state.role === 'ADMIN' || state.role === 'MODERATOR') && (
+                        {(state.role === 'ADMIN') && (
                             <Link href="/users">
                                 <MenuItem>
                                     <ListItemIcon><SupervisedUserCircleOutlinedIcon color="primary"/></ListItemIcon>

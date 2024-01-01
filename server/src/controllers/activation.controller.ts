@@ -14,7 +14,7 @@ const activate =  asyncHandler( async (req, res) => {
 
     let userData: UserActivationData | null = await findActivationToken(token);
     if(!userData) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(403).json({ message: "Unauthorized" });
     } else {
         createNewUser(userData).then(user => {
             const accessToken = jwt.sign(

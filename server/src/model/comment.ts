@@ -1,4 +1,5 @@
 export interface CommentWithRating {
+    id: number,
     recipe_id: number,
     user: {
         id: number,

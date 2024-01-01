@@ -9,7 +9,6 @@ import {
     newRating,
     recipeComments,
     newComment,
-    deleteComment,
     getRecipesByDish,
     getRecipesByCategory,
     getRecipesByTag
@@ -34,7 +33,6 @@ router.route('/:id/rating')
 router.route('/:id/comment')
     .get(recipeComments)
     .post(verifyJWT, newComment)
-    .delete(verifyJWT, deleteComment)
 
 router.route('/dish/:dishName')
     .get(getRecipesByDish)

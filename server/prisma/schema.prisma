@@ -65,6 +65,7 @@ model recipe_rating {
 }
 
 model recipe_review {
+  id        Int      @default(autoincrement())
   user_id   Int
   recipe_id Int
   date      DateTime @db.DateTime(0)
@@ -72,7 +73,7 @@ model recipe_review {
   recipe    recipe   @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_recipe_recipe2")
   user      user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_recipe_user2")
 
-  @@id([user_id, recipe_id, date])
+  @@id([id])
   @@index([recipe_id], map: "fk_user_has_recipe_recipe2_idx")
   @@index([user_id], map: "fk_user_has_recipe_user2_idx")
 }

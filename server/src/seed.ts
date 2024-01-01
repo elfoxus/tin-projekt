@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 async function createData() {
     const admin = await createAdmin();
+    const moderator = await createModerator();
     const user1 = await createUser('janko', 1);
     const user2 = await createUser('franko', 2);
     const user3 = await createUser('hanko', 3);
-    const moderator = await createModerator();
     const dishes = await createDishes();
     const categories = await createCategories();
     const tags = await createTags();

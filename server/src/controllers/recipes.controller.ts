@@ -268,9 +268,7 @@ const newComment = (req: Request, res: Response) => {
         });
 };
 
-const deleteComment = (req: Request, res: Response) => {
-    res.status(501).json({message: "Not implemented"});
-}
+
 
 const getRecipesByDish =(req: Request, res: Response) => {
     let dishName = req.params.dishName;
@@ -303,7 +301,6 @@ export {
     newRating,
     recipeComments,
     newComment,
-    deleteComment,
     getRecipesByDish,
     getRecipesByCategory,
     getRecipesByTag

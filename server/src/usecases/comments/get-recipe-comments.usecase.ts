@@ -27,16 +27,19 @@ export default function getRecipeComments(id: number): Promise<CommentWithRating
             if (review.user.recipe_rating.length === 1) {
                 rating = review.user.recipe_rating[0].rating
             }
-            return {
+            const data: CommentWithRating = {
+                id: review.id,
+                date: review.date,
+                comment: review.comment,
+                rating: rating,
                 recipe_id: review.recipe_id,
                 user: {
                     id: review.user_id,
                     username: review.user.username
-                },
-                date: review.date,
-                comment: review.comment,
-                rating: rating
+                }
             }
+
+            return data;
         })
     })
 }

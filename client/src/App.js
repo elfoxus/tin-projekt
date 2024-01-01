@@ -48,7 +48,7 @@ class App extends Component {
                                 <Route path="/404" element={<NotFound />} />
                                 <Route path="/500" element={<InternalProblemPage />} />
                                 <Route path="/thank-you" element={<ThankYou />} />
-                                <Route path="/users" element={<PrivateRoute passRole='MODERATOR'><Users/></PrivateRoute>} />
+                                <Route path="/users" element={<PrivateRoute passRole='ADMIN'><Users/></PrivateRoute>} />
                                 <Route path="*" element={<Navigate to="/404" />} />
                             </Routes>
                         </Container>
