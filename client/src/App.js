@@ -16,6 +16,9 @@ import {Container} from "@mui/material";
 import ThankYou from "./components/ThankYou/ThankYou";
 import {AxiosInterceptor} from "./services/api";
 import AuthVerify, {UserContext} from "./services/auth";
+import Favourites from "./components/Favourites/Favourites";
+import AddRecipe from "./components/AddRecipe/AddRecipe";
+import Users from "./components/Users/Users";
 
 class App extends Component {
     render() {
@@ -25,14 +28,18 @@ class App extends Component {
                 <AxiosInterceptor>
                     <AuthVerify>
                         <Header/>
-                        <Container sx={{paddingTop: '90px', zIndex: 4, minHeight: '100%', paddingBottom: '60px', flex: '1'}}>
+                        <Container sx={{paddingTop: '75px', zIndex: 4, minHeight: '100%', paddingBottom: '60px', flex: '1'}}>
                             <Routes>
                                 <Route path="/"  element={<RecipesView url='/recipes' title='Przepisy' />} />
+                                <Route path="/add-recipe" element={<AddRecipe />} />
+                                <Route path="/my-recipes" element={<PrivateRoute passRole='USER'><RecipesView url='/recipes/my' title='Moje przepisy' /></PrivateRoute>} />
+                                <Route path="/favourites" element={<PrivateRoute passRole='USER'><Favourites/></PrivateRoute>} />
                                 <Route path="/recipe/:id" element={<Recipe />} />
                                 <Route path="/category/:name" element={<CategoryRecipesView/>} />
                                 <Route path="/tag/:name" element={<TagRecipesView/>} />
                                 <Route path="/dish/:name" element={<DishRecipesView/>} />
                                 <Route path="/categories" element={<LinkListView url='/categories' sub_url="category" title='Kategorie' />} />
+                                <Route path="/tags" element={<LinkListView url='/tags' sub_url="tag" title='Tagi' />} />
                                 <Route path="/dishes" element={<LinkListView url='/dishes' sub_url="dish" title='Dania' />} />
                                 <Route path="/login" element={<PublicRoute><Login/></PublicRoute>} />
                                 <Route path="/register" element={<PublicRoute><Registration/></PublicRoute>} />
@@ -41,6 +48,7 @@ class App extends Component {
                                 <Route path="/404" element={<NotFound />} />
                                 <Route path="/500" element={<InternalProblemPage />} />
                                 <Route path="/thank-you" element={<ThankYou />} />
+                                <Route path="/users" element={<PrivateRoute passRole='MODERATOR'><Users/></PrivateRoute>} />
                                 <Route path="*" element={<Navigate to="/404" />} />
                             </Routes>
                         </Container>

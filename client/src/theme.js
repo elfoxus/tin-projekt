@@ -7,7 +7,7 @@ const theme = createTheme({
     //         main: '#071B26',
     //     }
     // }
-    palette: palette
+    palette: palette // redundant, it is used by default when overriding the theme, but it is here for clarity
 });
 
 export default theme;

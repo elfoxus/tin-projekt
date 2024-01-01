@@ -3,7 +3,7 @@ import {RecipeCardData} from "../../model/recipe";
 import {findPath} from "../../services/storage/image.service";
 
 
-export default function getAllRecipesByCategory(categoryName: string, page: number = 0): Promise<RecipeCardData[]> {
+export default function getAllRecipesByCategory(categoryName: string): Promise<RecipeCardData[]> {
     return prisma.recipe.findMany({
         where: {
             recipe_has_category: {
@@ -16,8 +16,6 @@ export default function getAllRecipesByCategory(categoryName: string, page: numb
                 }
             }
         },
-        skip: page * 12,
-        take: 12,
         orderBy: {
             recipe_rating: {
                 _count: 'desc'

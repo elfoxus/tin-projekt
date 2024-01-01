@@ -12,7 +12,9 @@ function assertDirExists(dir: string) {
     }
 }
 
-export function saveImage(imageData: any, imageType: string): string {
+export function saveImage(image: Express.Multer.File): string {
+    const imageData = image.buffer;
+    const imageType = image.mimetype;
     const token = v4();
     const ext = imageType.split('/')[1];
     fs.writeFile(

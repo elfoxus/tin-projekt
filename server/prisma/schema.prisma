@@ -20,14 +20,14 @@ model dish {
 }
 
 model favourite_recipes {
-  user_category_id Int    @default(autoincrement())
+  user_id Int    @default(autoincrement())
   recipe_id        Int
   recipe           recipe @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_recipe_recipe1")
-  user             user   @relation(fields: [user_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_recipe_user1")
+  user             user   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_recipe_user1")
 
-  @@id([user_category_id, recipe_id])
+  @@id([user_id, recipe_id])
   @@index([recipe_id], map: "fk_user_has_recipe_recipe1_idx")
-  @@index([user_category_id], map: "fk_user_has_recipe_user1_idx")
+  @@index([user_id], map: "fk_user_has_recipe_user1_idx")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments

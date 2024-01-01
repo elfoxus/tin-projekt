@@ -81,7 +81,7 @@ const Header = () => {
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <HeaderLogo />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: '10px' }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 }}>
                         <Link to={pages[0].url} id={pages[0].id}>
                             <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                                 {pages[0].text}

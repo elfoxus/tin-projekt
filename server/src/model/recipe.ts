@@ -22,3 +22,34 @@ export interface RecipeDetails extends RecipeCardData {
     categories: string[]
     tags: string[]
 }
+
+export interface RecipeAddRequest {
+    name: string,
+    description: string,
+    servings: number,
+    time: string,
+    ingredients: string[],
+    steps: AddRecipeRequestStep[],
+    dishes: string[],
+    categories: string[],
+    tags: string[]
+}
+
+export interface AddRecipeRequestStep {
+    number: number,
+    name: string
+}
+
+export interface AddRecipeData {
+    username: string
+    name: string,
+    description: string,
+    servings: number,
+    cook_time: Date,
+    ingredients: string[],
+    steps: AddRecipeRequestStep[],
+    dishes: string[],
+    categories: string[],
+    tags: string[],
+    image: Express.Multer.File
+}

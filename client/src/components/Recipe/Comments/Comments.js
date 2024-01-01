@@ -1,10 +1,10 @@
 import React, {Fragment, useContext, useEffect, useState} from 'react';
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {StyledRating} from "../StyledRating/StyledRating";
-import {format} from 'date-fns';
 import api from "../../../services/api";
 import AddNewComment from "./AddNewComment/AddNewComment";
 import {UserContext} from "../../../services/auth";
+import dayjs from "dayjs";
 
 const Comments = ({recipeId}) => {
 
@@ -22,7 +22,7 @@ const Comments = ({recipeId}) => {
         useEffect(() => {
             api.get('/recipes/' + recipeId + '/comment')
                 .then(response => {
-                    setComments(response.data);
+                    setComments(response.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
                     setLoading(false);
                 }).catch(error => {
                     setLoading(false);
@@ -79,7 +79,7 @@ const Comments = ({recipeId}) => {
                                     <Box key={comment.user.id + '-' + comment.date.toString()}>
                                         <Box sx={{display: 'flex', gap: 1, alignItems: 'baseline'}}>
                                             <Typography variant={'subtitle1'}>{comment.user.username}</Typography>
-                                            <Typography variant={'subtitle2'}>{format(comment.date, 'HH:mm:ss dd.MM.yyyy')}</Typography>
+                                            <Typography variant={'subtitle2'}>{dayjs(comment.date).format('HH:mm:ss dd.MM.yyyy')}</Typography>
                                             {comment.rating >= 0 && <StyledRating name="recipe-rating" size="small" value={comment.rating} readOnly={true} precision={0.5}></StyledRating>}
                                         </Box>
                                         <Typography variant={'body2'}>

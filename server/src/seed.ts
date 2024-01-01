@@ -8,6 +8,7 @@ async function createData() {
     const admin = await createAdmin();
     const user1 = await createUser('janko', 1);
     const user2 = await createUser('franko', 2);
+    const user3 = await createUser('hanko', 3);
     const moderator = await createModerator();
     const dishes = await createDishes();
     const categories = await createCategories();
@@ -75,6 +76,22 @@ async function createData() {
         {no: 7, description: "Podawaj z posypanymi płatkami drożdżowymi lub startym serem i świeżą bazylią."}
     ]);
     const comment = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
+    const comment2 = await createComment(spaghetti_con_carne.id, user2.username, "Pyszny przepis! Zrobię na pewno nie jeden raz!");
+    const comment3 = await createComment(spaghetti_vege.id, user1.username, "Dobra bezmięsna opcja. Polecam");
+    const comment4 = await createComment(spaghetti_vege.id, user2.username, "Zrobiłem i jestem zadowolony. Polecam");
+    const comment5 = await createComment(spaghetti_vege.id, user3.username, "Dobre, ale nie dla mnie");
+
+    const favourites = await addToFavourites(spaghetti_con_carne.id, user1.id);
+    const favourites2 = await addToFavourites(spaghetti_con_carne.id, user2.id);
+    const favourites3 = await addToFavourites(spaghetti_vege.id, user3.id);
+
+    const rating1 = await addRating(spaghetti_con_carne.id, user1.id, 5);
+    const rating2 = await addRating(spaghetti_con_carne.id, user2.id, 4);
+    const rating3 = await addRating(spaghetti_con_carne.id, user3.id, 5);
+    const rating4 = await addRating(spaghetti_vege.id, user1.id, 5);
+    const rating5 = await addRating(spaghetti_vege.id, user2.id, 4);
+    const rating6 = await addRating(spaghetti_vege.id, user3.id, 2);
+
     const spaghetti_con_carne_ingredients:{id: number, name: string}[] = await createRecipeIngredients(spaghetti_con_carne.id, [
         "0,5kg mięsa mielonego",
         "1 cebula",
@@ -89,6 +106,25 @@ async function createData() {
         "świeża bazylia do posypania"
     ]);
     console.log("Fake data created")
+}
+
+async function addRating(recipeId: number, userId: number, rating: number) {
+    return prisma.recipe_rating.create({
+        data: {
+            rating: rating,
+            user_id: userId,
+            recipe_id: recipeId
+        }
+    })
+}
+
+async function addToFavourites(recipeId: number, userId: number) {
+    return prisma.favourite_recipes.create({
+        data: {
+            user_id: userId,
+            recipe_id: recipeId
+        }
+    })
 }
 
 async function createComment(recipeId: number, username: string, msg: string) {

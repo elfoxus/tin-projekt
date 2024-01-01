@@ -14,6 +14,7 @@ import { router } from './routes/routes'
 import { prisma } from "./services/db/prisma";
 import { logger } from "./middleware/logger";
 import errorHandler  from "./middleware/errorHandler";
+import multer from "multer";
 
 
 const app: Application = express();
@@ -21,6 +22,11 @@ const app: Application = express();
 app.use(logger);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(multer({
+    storage: multer.memoryStorage()
+}).fields([
+    {name: 'image', maxCount: 1}
+]))
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.CLIENT_URL,
