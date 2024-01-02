@@ -8,6 +8,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY prisma ./prisma/
 COPY migrate-and-start.sh ./
+# this can be optional if you don't have any images
+COPY images ./images/
 
 USER node
 
