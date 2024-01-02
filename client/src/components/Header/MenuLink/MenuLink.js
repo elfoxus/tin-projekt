@@ -1,7 +1,8 @@
 import React from "react";
-import {Button, MenuItem, Link} from "@mui/material";
+import {Button, MenuItem} from "@mui/material";
 import {usePopupState, bindHover, bindMenu} from "material-ui-popup-state/hooks";
 import HoverMenu from "material-ui-popup-state/HoverMenu";
+import {Link} from "react-router-dom";
 
 const MenuLink = ({text, id, url, links}) => {
 
@@ -11,7 +12,7 @@ const MenuLink = ({text, id, url, links}) => {
     })
 
     return (
-        <Link href={url} id={id} {...bindHover(popupState)} variant="contained" aria-haspopup="true">
+        <Link to={url} id={id} {...bindHover(popupState)} variant="contained" aria-haspopup="true">
             <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                 {text}
             </Button>
@@ -21,7 +22,7 @@ const MenuLink = ({text, id, url, links}) => {
                 transformOrigin={{vertical: 'top', horizontal: 'center'}}
             >
                 {links.map((link) =>
-                    <Link href={link.url} key={link.text}>
+                    <Link to={link.url} key={link.text}>
                     <MenuItem
                           className="capitalize"
                           onClick={popupState.close}>

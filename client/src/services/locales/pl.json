@@ -1,0 +1,124 @@
+{
+  "app": {
+    "main-page-title": "Przepisy",
+    "my-recipes-title": "Moje przepisy",
+    "tags-title": "Tagi",
+    "tag": "Tag:",
+    "categories-title": "Kategorie",
+    "category": "Kategoria:",
+    "dishes-title": "Dania",
+    "dish": "Danie:"
+  },
+  "about-us": {
+    "title": "O nas",
+    "p1": "Witaj na naszej stronie z przepisami kulinarnymi! Jesteśmy pasjonatami gotowania i chcemy podzielić się z Tobą naszą miłością do jedzenia. Nasza strona oferuje bogatą kolekcję przepisów na różnorodne dania, od prostych potraw codziennych po wykwintne dania przygotowywane na specjalne okazje.",
+    "p2": "Nasze przepisy są starannie wyselekcjonowane, a każdy z nich został przetestowany, aby zapewnić smaczne i satysfakcjonujące doświadczenie kulinarne. Bez względu na to, czy jesteś początkującym kucharzem, czy doświadczonym szefem kuchni, znajdziesz tu coś dla siebie.",
+    "p3": "Chcielibyśmy również podziękować naszej wspaniałej społeczności kulinarnych entuzjastów za wsparcie i dzielenie się swoimi pomysłami na naszej stronie. To dzięki Wam możemy stale rozwijać naszą kolekcję przepisów i dostarczać nowe inspiracje kulinarne.",
+    "p4": "Zapraszamy do eksploracji naszych przepisów i dołączenia do naszej społeczności kulinarnych miłośników.",
+    "p5": "Gotując z naszymi przepisami masz gwarancję:",
+    "dot1": "Starannie wyselekcjonowane przepisy",
+    "dot2": "Wsparcie społeczności kulinarnych entuzjastów",
+    "dot3": "Nowe inspiracje kulinarnych"
+  },
+  "activation": {
+    "info": "Trwa aktywacja konta..."
+  },
+  "add-recipe": {
+    "title": "Dodaj przepis",
+    "image-alt": "Zdjęcie przepisu",
+    "form": {
+      "name": "Nazwa",
+      "name-placeholder": "Wpisz nazwę przepisu",
+      "add-image": "Dodaj zdjęcie",
+      "cooking-time": "Czas przygotowania",
+      "servings": "Ilość porcji",
+      "categories": "Kategorie",
+      "categories-placeholder": "Wybierz kategorie",
+      "dishes": "Dania",
+      "dishes-placeholder": "Wybierz dania",
+      "tags": "Tagi",
+      "tags-placeholder": "Wybierz tagi",
+      "description": "Opis",
+      "description-placeholder": "Wpisz opis przepisu...",
+      "ingredients": "Składniki",
+      "ingredients-placeholder": "Dodaj składnik",
+      "steps": "Kroki przyogotowania",
+      "steps-placeholder": "Dodaj krok",
+      "submit": "Dodaj przepis"
+    }
+  },
+  "fav": {
+    "title": "Ulubione przepisy"
+  },
+  "footer": {
+    "copyright": "Copyright ©",
+    "logo": "Przepisy Online"
+  },
+  "header": {
+    "logo": "Przepisy Online",
+    "main-page": "Wszystkie",
+    "categories": "Kategorie",
+    "dishes": "Dania",
+    "tags": "Tagi",
+    "about-us": "O nas",
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "user-menu": {
+      "add-recipe": "Dodaj przepis",
+      "welcome": "Witaj",
+      "users": "Użytkownicy",
+      "my-recipes": "Moje przepisy",
+      "fav": "Ulubione",
+      "logout": "Wyloguj"
+    }
+  },
+  "500": {
+    "title": "Wystąpił błąd po stronie serwera",
+    "info": "Wróć do strony głównej"
+  },
+  "login": {
+    "title": "Zaloguj się",
+    "form": {
+      "username": "Nazwa użytkownika",
+      "password": "Hasło",
+      "submit": "Zaloguj się"
+    }
+  },
+  "404": {
+    "title": "Nie odnaleziono podanej strony",
+    "info": "Wróć do strony głównej"
+  },
+  "recipe": {
+    "loading": "Trwa ładowanie...",
+    "cooking-time": "Czas przygotowania",
+    "ingredients": "Składniki",
+    "preparation": "Przygotowanie",
+    "comments": {
+      "title": "Komentarze"
+    }
+  },
+  "registration": {
+    "title": "Zarejestruj się",
+    "form": {
+      "username": "Nazwa użytkownika",
+      "email": "Email",
+      "password": "Hasło",
+      "submit": "Zarejestruj się"
+    }
+  },
+  "thank-you": {
+    "title": "Serdecznie dziękujemy!",
+    "info": "Na podany adres email została wysłana wiadomość z linkiem aktywacyjnym."
+  },
+  "users": {
+    "title": "Użytkownicy",
+    "table": {
+      "id": "Id",
+      "name": "Nazwa użytkownika",
+      "email": "Email",
+      "active-from": "Aktywny od",
+      "recipes-count": "Ilość przepisów",
+      "role": "Rola"
+    }
+  }
+}

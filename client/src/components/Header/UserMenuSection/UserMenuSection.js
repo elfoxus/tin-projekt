@@ -11,8 +11,10 @@ import Logout from '@mui/icons-material/Logout';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import LocalDiningOutlinedIcon from '@mui/icons-material/LocalDiningOutlined';
 import SupervisedUserCircleOutlinedIcon from '@mui/icons-material/SupervisedUserCircleOutlined';
+import {useTranslation} from "react-i18next";
 
 const UserMenuSection = ({children}) => {
+    const { t } = useTranslation();
     const {state, dispatch} = useContext(UserContext);
     const navigate = useNavigate()
     const popupState = usePopupState({
@@ -38,12 +40,12 @@ const UserMenuSection = ({children}) => {
                           clickable
                           href="/add-recipe"
                           icon={<AddCircleOutlineOutlinedIcon color="primary.light" />}
-                          label="Dodaj przepis"
+                          label={t('header.user-menu.add-recipe')}
                           sx={{marginLeft: 'auto', backgroundColor: 'primary.light', color: 'white'}} />
                     <Chip avatar={<Avatar>{state.username.substring(0, 1).toUpperCase()}</Avatar>}
                           {...bindHover(popupState)}
                           sx={{marginLeft: 'auto', backgroundColor: 'primary.light', color: 'white'}}
-                          label={'Witaj ' + state.username}
+                          label={t('header.user-menu.welcome') + ' ' + state.username}
                     />
                     <HoverMenu
                         {...bindMenu(popupState)}
@@ -54,25 +56,25 @@ const UserMenuSection = ({children}) => {
                             <Link href="/users">
                                 <MenuItem>
                                     <ListItemIcon><SupervisedUserCircleOutlinedIcon color="primary"/></ListItemIcon>
-                                    <ListItemText>Użytkownicy</ListItemText>
+                                    <ListItemText>{t('header.user-menu.users')}</ListItemText>
                                 </MenuItem>
                             </Link>
                         )}
                         <Link href="/my-recipes">
                             <MenuItem>
                                 <ListItemIcon><LocalDiningOutlinedIcon color="primary"/></ListItemIcon>
-                                <ListItemText>Moje przepisy</ListItemText>
+                                <ListItemText>{t('header.user-menu.my-recipes')}</ListItemText>
                             </MenuItem>
                         </Link>
                         <Link href="/favourites">
                             <MenuItem>
                                 <ListItemIcon><FavoriteOutlinedIcon color="primary"/></ListItemIcon>
-                                <ListItemText>Ulubione</ListItemText>
+                                <ListItemText>{t('header.user-menu.fav')}</ListItemText>
                             </MenuItem>
                         </Link>
                         <MenuItem onClick={onLogout} sx={{color: "primary.main"}}>
                             <ListItemIcon><Logout color="primary"/></ListItemIcon>
-                            <ListItemText>Wyloguj</ListItemText>
+                            <ListItemText>{t('header.user-menu.logout')}</ListItemText>
                         </MenuItem>
                     </HoverMenu>
                 </Box>

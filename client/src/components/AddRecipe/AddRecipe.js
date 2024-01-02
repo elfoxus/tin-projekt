@@ -12,10 +12,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from "dayjs";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 
 
 const AddRecipe = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     // global data
     const [categoriesList, setCategoriesList] = useState([]);
@@ -293,14 +295,14 @@ const AddRecipe = () => {
                             <AddOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Dodaj nowy przepis
+                            {t('add-recipe.title')}
                         </Typography>
                     </Box>
                     {image &&
                         <Box
                             component="img"
                             src={URL.createObjectURL(image)}
-                            alt="zdjęcie przepisu"
+                            alt={t('add-recipe.image-alt')}
                             sx={{
                                 height: 'auto',
                             }}
@@ -335,8 +337,8 @@ const AddRecipe = () => {
                                 disabled={loading}
                                 value={name}
                                 id="name"
-                                label="Nazwa"
-                                placeholder="Podaj nazwę przepisu..."
+                                label={t('add-recipe.form.name')}
+                                placeholder={t('add-recipe.form.name-placeholder')}
                                 fullWidth
                                 onChange={handleNameChange}
                             />
@@ -344,7 +346,7 @@ const AddRecipe = () => {
                                 variant="contained"
                                 component="label"
                             >
-                                Dodaj zdjęcie
+                                {t('add-recipe.form.add-image')}
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -353,12 +355,12 @@ const AddRecipe = () => {
                                 />
                             </Button>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <TimePicker value={time} onChange={onTimeChange} views={['hours', 'minutes']} label="Czas przygotowania" format="HH:mm" ampm={false}/>
+                                <TimePicker value={time} onChange={onTimeChange} views={['hours', 'minutes']} label={t('add-recipe.form.cooking-time')} format="HH:mm" ampm={false}/>
                             </LocalizationProvider>
                             <NumberSelect
                                 disabledProp={loading}
                                 idProp="servings"
-                                label="Ilość porcji"
+                                label={t('add-recipe.form.servings')}
                                 placeholder="Podaj ilość porcji"
                                 min={1}
                                 max={10}
@@ -370,31 +372,31 @@ const AddRecipe = () => {
                                 onChange={onCategoriesChange}
                                 options={categoriesList}
                                 disabledProp={loading}
-                                label="Kategorie"
-                                placeholder="Wybierz kategorie"
+                                label={t('add-recipe.form.categories')}
+                                placeholder={t('add-recipe.form.categories-placeholder')}
                             />
                             <MultiSelect
                                 idProp="dishes"
                                 onChange={onDishesChange}
                                 options={dishesList}
                                 disabledProp={loading}
-                                label="Dania"
-                                placeholder="Wybierz dania"
+                                label={t('add-recipe.form.dishes')}
+                                placeholder={t('add-recipe.form.dishes-placeholder')}
                             />
                             <MultiSelect
                                 idProp="tags"
                                 onChange={onTagsChange}
                                 options={tagsList}
                                 disabledProp={loading}
-                                label="Tagi"
-                                placeholder="Wybierz tagi"
+                                label={t('add-recipe.form.tags')}
+                                placeholder={t('add-recipe.form.tags-placeholder')}
                             />
                             <TextField
                                 disabled={loading}
                                 value={description}
                                 id="description"
-                                label="Opis"
-                                placeholder="Napisz opis przepisu..."
+                                label={t('add-recipe.form.description')}
+                                placeholder={t('add-recipe.form.description-placeholder')}
                                 multiline
                                 fullWidth
                                 rows={4}
@@ -403,15 +405,15 @@ const AddRecipe = () => {
                         </Box>
                         <Box sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
                             <ChipEditList
-                                title="Składniki"
-                                placeholder="Dodaj składnik"
+                                title={t('add-recipe.form.ingredients')}
+                                placeholder={t('add-recipe.form.ingredients-placeholder')}
                                 values={ingredients}
                                 setValues={setIngredients}
                                 indexes={false}
                             />
                             <ChipEditList
-                                title="Kroki"
-                                placeholder="Dodaj krok"
+                                title={t('add-recipe.form.steps')}
+                                placeholder={t('add-recipe.form.steps-placeholder')}
                                 values={steps}
                                 setValues={setSteps}
                                 indexes={true}
@@ -435,7 +437,7 @@ const AddRecipe = () => {
                             }
                         }}
                     >
-                        Dodaj przepis
+                        {t('add-recipe.form.submit')}
                         {loading && (
                             <CircularProgress
                                 size={24}

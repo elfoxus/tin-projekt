@@ -1,0 +1,124 @@
+{
+  "app": {
+    "main-page-title": "Recipes",
+    "my-recipes-title": "My recipes",
+    "tags-title": "Tags",
+    "tag": "Tag:",
+    "categories-title": "Categories",
+    "category": "Category:",
+    "dishes-title": "Dishes",
+    "dish": "Dish:"
+  },
+  "about-us": {
+    "title": "About us",
+    "p1": "Welcome to our recipe website! We are passionate about cooking and want to share our love of food with you. Our website offers a rich collection of recipes for a variety of dishes, from simple everyday dishes to exquisite dishes prepared for special occasions.",
+    "p2": "Our recipes are carefully selected and each one has been tested to ensure a delicious and satisfying cooking experience. Whether you are a beginner cook or an experienced chef, you will find something for yourself here.",
+    "p3": "We would also like to thank our wonderful community of culinary enthusiasts for supporting us and sharing their ideas on our site. It is thanks to you that we can constantly develop our collection of recipes and provide new culinary inspirations.",
+    "p4": "We invite you to explore our recipes and join our community of culinary lovers.",
+    "p5": "When cooking with our recipes, you are guaranteed:",
+    "dot1": "Carefully selected recipes",
+    "dot2": "Supported by a community of culinary enthusiasts",
+    "dot3": "New culinary inspirations"
+  },
+  "activation": {
+    "info": "Activating account. Please wait..."
+  },
+  "add-recipe": {
+    "title": "Add recipe",
+    "image-alt": "Recipe image",
+    "form": {
+      "name": "Name",
+      "name-placeholder": "Enter recipe name",
+      "add-image": "Add image",
+      "cooking-time": "Cooking time",
+      "servings": "Servings",
+      "categories": "Categories",
+      "categories-placeholder": "Select categories",
+      "dishes": "Dishes",
+      "dishes-placeholder": "Select dishes",
+      "tags": "Tags",
+      "tags-placeholder": "Enter tags",
+      "description": "Description",
+      "description-placeholder": "Enter description",
+      "ingredients": "Ingredients",
+      "ingredients-placeholder": "Add ingredientt",
+      "steps": "Preparation steps",
+      "steps-placeholder": "Add preparation step",
+      "submit": "Add recipe"
+    }
+  },
+  "fav": {
+    "title": "Favorites"
+  },
+  "footer": {
+    "copyright": "Copyright ©",
+    "logo": "Recipes Online"
+  },
+  "header": {
+    "logo": "Recipes Online",
+    "main-page": "All recipes",
+    "categories": "Categories",
+    "dishes": "Dishes",
+    "tags": "Tags",
+    "about-us": "About us",
+    "login": "Login",
+    "register": "Register",
+    "user-menu": {
+      "add-recipe": "Add recipe",
+      "welcome": "Welcome",
+      "users": "Users",
+      "my-recipes": "My recipes",
+      "fav": "Favorites",
+      "logout": "Logout"
+    }
+  },
+  "500": {
+    "title": "Internal server error",
+    "info": "Go back to main page"
+  },
+  "login": {
+    "title": "Login",
+    "form": {
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login"
+    }
+  },
+  "404": {
+    "title": "Page not found",
+    "info": "Go back to main page"
+  },
+  "recipe": {
+    "loading": "Loading...",
+    "cooking-time": "Cooking time",
+    "ingredients": "Ingredients",
+    "preparation": "Preparation",
+    "comments": {
+      "title": "Comments"
+    }
+  },
+  "registration": {
+    "title": "Register",
+    "form": {
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Register"
+    }
+  },
+  "thank-you": {
+    "title": "Thank you!",
+    "info": "An email has been sent to you with a link to confirm your email address. Please click on the link in the email to complete your registration."
+  },
+  "users": {
+    "title": "Users",
+    "table": {
+      "id": "Id",
+      "name": "Username",
+      "email": "Email",
+      "active-from": "Active from",
+      "recipes-count": "Recipes count",
+      "role": "Role"
+    }
+  }
+}

@@ -19,7 +19,10 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import api from "../../services/api";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 const Registration = () => {
+
+    const { t } = useTranslation();
 
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -107,7 +110,7 @@ const Registration = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Zarejestruj się
+                    {t('registration.title')}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -115,7 +118,7 @@ const Registration = () => {
                         margin="normal"
                         fullWidth
                         id="email"
-                        label="Email"
+                        label={t('registration.form.email')}
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -126,14 +129,14 @@ const Registration = () => {
                         margin="normal"
                         fullWidth
                         id="username"
-                        label="Nazwa użytkownika"
+                        label={t('registration.form.username')}
                         name="username"
                         autoComplete="username"
                         autoFocus
                         onChange={handleUsernameChange}
                     />
                     <FormControl sx={{ marginTop: 2, marginBottom: 1, width: '100%' }} variant="outlined">
-                        <InputLabel htmlFor="password">Hasło</InputLabel>
+                        <InputLabel htmlFor="password">{t('registration.form.password')}</InputLabel>
                         <OutlinedInput
                             error={invalidFields.includes('password')}
                             id="password"
@@ -141,7 +144,7 @@ const Registration = () => {
                             type={showPassword ? 'text' : 'password'}
                             required
                             fullWidth
-                            label="Hasło"
+                            label={t('registration.form.password')}
                             autoComplete="current-password"
                             onChange={handlePasswordChange}
                             endAdornment={
@@ -163,7 +166,7 @@ const Registration = () => {
                         disabled={buttonDisabled || loading}
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Zarejestruj się
+                        {t('registration.form.submit')}
                         {loading && (
                             <CircularProgress
                                 size={24}

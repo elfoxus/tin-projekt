@@ -11,9 +11,13 @@ import api from "../../services/api";
 import FavouriteButton from "./FavouriteButton/FavouriteButton";
 import dayjs from "dayjs";
 import ClickableImage from "./ClickableImage/ClickableImage";
+import {useTranslation} from "react-i18next";
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 
 const Recipe = () => {
+
+    const { t } = useTranslation();
 
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
@@ -38,7 +42,7 @@ const Recipe = () => {
                 <Section>
                     <Box sx={{display: 'flex', gap: 1, alignItems: 'baseline'}}>
                         <CircularProgress />
-                        <Typography variant={'h4'}>Trwa ładowanie...</Typography>
+                        <Typography variant={'h4'}>{t('recipe.loading')}</Typography>
                     </Box>
 
                 </Section>
@@ -72,7 +76,7 @@ const Recipe = () => {
                                         {recipe.dishes.map(dish => <Button size="small" variant="outlined" key={dish} href={'/dish/' + dish}>{dish}</Button>)}
                                     </Box>
                                     <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center'}} aria-label="Powiązane tagi z przepisem">
-                                        {recipe.tags.map(tag => <Button size="small" variant="outlined" key={tag} href={'/'}>{tag}</Button>)}
+                                        {recipe.tags.map(tag => <Button size="small" variant="outlined" key={tag} href={'/tag/' + tag}>{tag}</Button>)}
                                     </Box>
                                 </Box>
                             </Box>
@@ -80,7 +84,7 @@ const Recipe = () => {
                             <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
                                 <AlarmRoundedIcon />
                                 <Typography>
-                                    Czas gotowania: {dayjs(recipe.cook_time).hour() > 0 ? dayjs(recipe.cook_time).hour() + ' godz. ' : ''} {dayjs(recipe.cook_time).minute()} min.
+                                    {t('recipe.cooking-time')} {dayjs(recipe.cook_time).hour() > 0 ? dayjs(recipe.cook_time).hour() + ' godz. ' : ''} {dayjs(recipe.cook_time).minute()} min.
                                 </Typography>
                             </Box>
                             <Typography variant={'body1'}>
@@ -89,15 +93,19 @@ const Recipe = () => {
                             <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 12, md: 12}}>
                                 <Grid item="true" xs={12} md={4}>
                                     <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', paddingBottom: 1}}>
-                                        <Typography variant={'h6'}>Składniki</Typography>
-                                        <Typography variant={'subtitle1'}> / {recipe.servings} porcje</Typography>
+                                        <Typography variant={'h6'}>{t('recipe.ingredients')}</Typography>
+                                        <Box sx={{display: 'flex', gap: 1}}>
+                                            <Typography variant={'subtitle1'}>  {recipe.servings}</Typography>
+                                            <RestaurantIcon/>
+                                        </Box>
+
                                     </Box>
                                     <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
                                         {recipe.ingredients.map(ingredient => <Typography key={ingredient} variant={'body2'}>{ingredient}</Typography>)}
                                     </Box>
                                 </Grid>
                                 <Grid item="true" xs={12} md={8}>
-                                    <Typography variant={'h6'} component="h3" sx={{paddingBottom: 1}}>Przygotowanie</Typography>
+                                    <Typography variant={'h6'} component="h3" sx={{paddingBottom: 1}}>{t('recipe.preparation')}</Typography>
                                     <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
                                         {recipe.steps.sort((a, b) => a.number - b.number)
                                             .map(step => <Typography key={step.number} variant={'body1'}>{step.number}. {step.description}</Typography>)}

@@ -11,8 +11,13 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Divider from '@mui/material/Divider';
 import {getRandomColor} from "../../../services/colors";
+import {useTranslation} from "react-i18next";
+import * as pl from 'dayjs/locale/pl';
+import * as en from 'dayjs/locale/pl';
 
 const Comments = ({recipeId}) => {
+
+        const { t, i18n, ready  } = useTranslation();
 
         const [comments, setComments] = useState([]);
         const [loading, setLoading] = useState(true);
@@ -21,6 +26,10 @@ const Comments = ({recipeId}) => {
         const [reloadRating, setReloadRating] = useState(false);
         const [authorColors, setAuthorColors] = useState(new Map());
         const {state} = useContext(UserContext);
+
+        i18n.on('languageChanged', (lng) => {
+            dayjs.locale(lng);
+        })
 
         const callbackWhenAdded = () => {
             setAdded(!added); // reload comments
@@ -101,7 +110,7 @@ const Comments = ({recipeId}) => {
                         <Box sx={{display: 'flex', gap: 2, flexDirection: 'column', marginTop: 1, width: '100%'}}>
                             <Box sx={{display: 'flex', gap: 3, alignItems: 'baseline', justifyContent: 'space-between'}}>
                                 <Box sx={{display: 'flex', gap: 2, alignItems: 'center'}}>
-                                    <Typography variant={'h5'}>Komentarze</Typography>
+                                    <Typography variant={'h5'}>{t('recipe.comments.title')}</Typography>
                                     {state.username &&
                                     <StyledRating
                                         name="recipe-rating"
@@ -143,7 +152,7 @@ const Comments = ({recipeId}) => {
                                             </Stack>
                                             <Stack direction="row" alignItems="center" gap={1}>
                                                 <Stack direction="row" gap={1}>
-                                                    <Typography variant={'caption'} >{dayjs(comment.date).format('HH:mm:ss ddd MMM YYYY')}</Typography>
+                                                    <Typography variant={'caption'} >{ready ? dayjs(comment.date).locale(i18n.language).format('HH:mm:ss ddd MMM YYYY') : ''}</Typography>
                                                     {comment.rating >= 0 && <StyledRating name="recipe-rating" size="small" value={comment.rating} readOnly={true} precision={0.5}></StyledRating>}
                                                 </Stack>
                                                 <Box sx={{ marginLeft: 'auto' }}>

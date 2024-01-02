@@ -9,8 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import {useTranslation} from "react-i18next";
 
 const Users = () => {
+
+    const { t } = useTranslation();
 
     const [users, setUsers] = useState([]);
     const roles = ['USER', 'MODERATOR', 'ADMIN'];
@@ -40,17 +43,17 @@ const Users = () => {
     }
 
     return (
-        <Section title="Użytkownicy">
+        <Section title={t('users.title')}>
             <TableContainer>
-                <Table sx={{ minWidth: 650 }} aria-label="Użytkownicy">
+                <Table sx={{ minWidth: 650 }} aria-label={t('users.title')}>
                     <TableHead>
                         <TableRow>
-                            <TableCell >Id</TableCell>
-                            <TableCell >Nazwa użytkownika</TableCell>
-                            <TableCell >Email</TableCell>
-                            <TableCell >Aktywny od</TableCell>
-                            <TableCell >Przepisy</TableCell>
-                            <TableCell >Rola</TableCell>
+                            <TableCell>{t('users.table.id')}</TableCell>
+                            <TableCell>{t('users.table.name')}</TableCell>
+                            <TableCell>{t('users.table.email')}</TableCell>
+                            <TableCell>{t('users.table.active-from')}</TableCell>
+                            <TableCell>{t('users.table.recipes-count')}</TableCell>
+                            <TableCell>{t('users.table.role')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

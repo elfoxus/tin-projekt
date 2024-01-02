@@ -19,8 +19,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import FormControl from "@mui/material/FormControl";
 import {login} from "../../services/authUtils";
 import {UserContext} from "../../services/auth";
+import {useTranslation} from "react-i18next";
 
 const Login = () => {
+
+    const { t } = useTranslation();
 
     const {dispatch} = useContext(UserContext);
     const [showPassword, setShowPassword] = useState(false);
@@ -83,7 +86,7 @@ const Login = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Zaloguj się
+                    {t('login.title')}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -91,7 +94,7 @@ const Login = () => {
                         margin="normal"
                         fullWidth
                         id="username"
-                        label="Nazwa użytkownika"
+                        label={t('login.form.username')}
                         name="username"
                         autoComplete="username"
                         autoFocus
@@ -105,7 +108,7 @@ const Login = () => {
                             name="password"
                             type={showPassword ? 'text' : 'password'}
                             fullWidth
-                            label="Hasło"
+                            label={t('login.form.password')}
                             autoComplete="current-password"
                             onChange={handlePasswordChange}
                             endAdornment={
@@ -127,7 +130,7 @@ const Login = () => {
                         disabled={buttonDisabled || loading}
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Zaloguj się
+                        {t('login.form.submit')}
                         {loading && (
                             <CircularProgress
                                 size={24}
