@@ -14,10 +14,13 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     const authRequest: AuthRequest = req.body;
     if(basicValidation(authRequest)) {
         res.status(400).json({ message: "All fields are required" });
+        return;
     }
     let userData = await validateCredentials(authRequest);
     if(!userData.validated || !userData.user) {
+        console.log("Invalid credentials")
         res.status(401).json({ message: "Unauthorized" });
+        return;
     }
 
     const accessToken = jwt.sign(
@@ -56,11 +59,13 @@ const refresh = asyncHandler(async (req: Request, res: Response) => {
         async (err: any, user: any) => {
             if (err) {
                 res.status(403).json({ message: "Forbidden" });
+                return;
             }
 
             const foundUser = await verifyUser(user.username);
             if(!foundUser) {
                 res.status(401).json({ message: "Unauthorized" });
+                return;
             }
 
             const accessToken = jwt.sign(
@@ -81,6 +86,7 @@ const logout = asyncHandler(async (req: Request, res: Response) => {
     const cookies = req.cookies;
     if(!cookies?.jwt) {
         res.sendStatus(204)
+        return;
     }
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true })
         .json({ message: "Logged out" });

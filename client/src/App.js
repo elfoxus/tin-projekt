@@ -54,7 +54,11 @@ const App = () => {
                     MuiCssBaseline: {
                         styleOverrides: {
                             body: {
-                                background: mode === 'light'
+                                position: 'relative',
+                                margin: 0,
+                                backgroundAttachment: 'fixed',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundImage: mode === 'light'
                                     ? 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
                                     : 'linear-gradient(to bottom, #071B26 0%,#071B26 30%,#8A3B12 80%,#240E03 100%)',
                             }

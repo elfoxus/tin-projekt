@@ -64,6 +64,7 @@ const Login = () => {
         login(data.get('username'), data.get('password'))
             .then(userData => {
                 setLoading(false);
+                console.log(userData)
                 dispatch({type: 'set', payload: userData});
             }).catch(error => {
                 setLoading(false);

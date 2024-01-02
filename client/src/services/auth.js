@@ -11,6 +11,7 @@ const AuthVerify = ({children}) => {
     const reducer = (state, action) => {
         switch (action.type) {
             case 'set':
+                console.log(action.payload)
                 return {
                     username: action.payload.username,
                     role: action.payload.role,

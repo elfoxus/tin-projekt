@@ -14,6 +14,7 @@ const login = (username, password) => {
             return decode(token)
         }).catch(error => {
             console.log(error.response.data)
+            throw error;
         })
 }
 

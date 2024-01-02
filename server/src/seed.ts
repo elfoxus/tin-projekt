@@ -10,6 +10,8 @@ async function createData() {
     const user1 = await createUser('janko', 1);
     const user2 = await createUser('franko', 2);
     const user3 = await createUser('hanko', 3);
+    const user4 = await createUser('panko', 4);
+    const user5 = await createUser('manko', 5);
     const dishes = await createDishes();
     const categories = await createCategories();
     const tags = await createTags();
@@ -22,22 +24,82 @@ async function createData() {
     const ciastoDyniowe = await createCiastoDyniowe(categories, dishes, tags);
     const goldenMilk = await createGoldenMilk(categories, dishes, tags);
 
-    const comment = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
-    const comment2 = await createComment(spaghetti_con_carne.id, user2.username, "Pyszny przepis! Zrobię na pewno nie jeden raz!");
-    const comment3 = await createComment(spaghetti_vege.id, user1.username, "Dobra bezmięsna opcja. Polecam");
-    const comment4 = await createComment(spaghetti_vege.id, user2.username, "Zrobiłem i jestem zadowolony. Polecam");
-    const comment5 = await createComment(spaghetti_vege.id, user3.username, "Dobre, ale nie dla mnie");
+    const comment1 = await createComment(spaghetti_vege.id, user1.username, "Dobra bezmięsna opcja. Polecam");
+    const comment2 = await createComment(spaghetti_vege.id, user2.username, "Zrobiłem i jestem zadowolony. Polecam");
+    const comment3 = await createComment(spaghetti_vege.id, user3.username, "Dobre, ale nie dla mnie");
+
+    const comment4 = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
+    const comment5 = await createComment(spaghetti_con_carne.id, user2.username, "Pyszny przepis! Zrobię na pewno nie jeden raz!");
+
+    const comment6 = await createComment(matchaCheesecake.id, user4.username, "Bardzo dobre ciasto");
+    const comment7 = await createComment(matchaCheesecake.id, user5.username, "Dobre, ale wolę klasyczny sernik");
+    const comment18 = await createComment(matchaCheesecake.id, user2.username, "A gdzie rodzynki?");
+
+    const comment8 = await createComment(scrambledEggs.id, user4.username, "Klasyczna jajecznica, ale zawsze dobra");
+    const comment9 = await createComment(scrambledEggs.id, user2.username, "Dobre, ale wolę jajecznice z pomidorami");
+
+    const comment10 = await createComment(ketoPancake.id, user1.username, "Dobre, ale wolę zwykłe naleśniki");
+    const comment11 = await createComment(ketoPancake.id, user3.username, "Dobre, zdrowe!!!");
+
+    const comment12 = await createComment(ciastoDyniowe.id, user5.username, "Przepyszne, idealne na jesienne wieczory");
+    const comment13 = await createComment(ciastoDyniowe.id, user3.username, "Dobre, ale wolę zwykłe ciasto dyniowe");
+
+    const comment14 = await createComment(goldenMilk.id, user1.username, "Dobre, zdrowe, obowiązkowy napój na dobrą odporność");
+    const comment15 = await createComment(goldenMilk.id, user2.username, "Dobre, ale wolę zwykłe mleko");
+    const comment16 = await createComment(goldenMilk.id, user3.username, "Ciekawy smak");
+    const comment17 = await createComment(goldenMilk.id, user4.username, "Piłem u mojej babci, ale nie wiedziałem jak się robi. Dzięki za przepis");
 
     const favourites = await addToFavourites(spaghetti_con_carne.id, user1.id);
     const favourites2 = await addToFavourites(spaghetti_con_carne.id, user2.id);
+
     const favourites3 = await addToFavourites(spaghetti_vege.id, user3.id);
+    const favourites4 = await addToFavourites(spaghetti_vege.id, user4.id);
+
+    const favourites5 = await addToFavourites(matchaCheesecake.id, user1.id);
+    const favourites6 = await addToFavourites(matchaCheesecake.id, user2.id);
+
+    const favourites7 = await addToFavourites(scrambledEggs.id, user3.id);
+    const favourites8 = await addToFavourites(scrambledEggs.id, user4.id);
+
+    const favourites9 = await addToFavourites(ketoPancake.id, user3.id);
+    const favourites10 = await addToFavourites(ketoPancake.id, user4.id);
+
+    const favourites11 = await addToFavourites(ciastoDyniowe.id, user1.id);
+    const favourites12 = await addToFavourites(ciastoDyniowe.id, user2.id);
+
+    const favourites13 = await addToFavourites(goldenMilk.id, user3.id);
+    const favourites14 = await addToFavourites(goldenMilk.id, user4.id);
+    const favourites15 = await addToFavourites(goldenMilk.id, user5.id);
 
     const rating1 = await addRating(spaghetti_con_carne.id, user1.id, 5);
     const rating2 = await addRating(spaghetti_con_carne.id, user2.id, 4);
     const rating3 = await addRating(spaghetti_con_carne.id, user3.id, 5);
+
     const rating4 = await addRating(spaghetti_vege.id, user1.id, 5);
     const rating5 = await addRating(spaghetti_vege.id, user2.id, 4);
     const rating6 = await addRating(spaghetti_vege.id, user3.id, 2);
+
+    const rating7 = await addRating(matchaCheesecake.id, user1.id, 4);
+    const rating8 = await addRating(matchaCheesecake.id, user2.id, 4);
+    const rating9 = await addRating(matchaCheesecake.id, user3.id, 4);
+
+    const rating10 = await addRating(scrambledEggs.id, user1.id, 5);
+    const rating11 = await addRating(scrambledEggs.id, user2.id, 4);
+    const rating12 = await addRating(scrambledEggs.id, user3.id, 3);
+
+    const rating13 = await addRating(ketoPancake.id, user1.id, 5);
+    const rating14 = await addRating(ketoPancake.id, user2.id, 3);
+    const rating15 = await addRating(ketoPancake.id, user3.id, 2);
+
+    const rating16 = await addRating(ciastoDyniowe.id, user1.id, 3);
+    const rating17 = await addRating(ciastoDyniowe.id, user2.id, 4);
+    const rating18 = await addRating(ciastoDyniowe.id, user3.id, 4);
+
+    const rating19 = await addRating(goldenMilk.id, user1.id, 5);
+    const rating20 = await addRating(goldenMilk.id, user2.id, 4);
+    const rating21 = await addRating(goldenMilk.id, user3.id, 4);
+    const rating22 = await addRating(goldenMilk.id, user4.id, 4);
+    const rating23 = await addRating(goldenMilk.id, user5.id, 5);
 
     console.log("Fake data created")
 }
@@ -204,6 +266,8 @@ async function createMatchaCheesecake(categories: any, dishes: any, tags: any) {
         "4 łyżki mąki",
         "2 łyżki gorącej wody"
     ]);
+
+    return matchaCheesecake;
 }
 
 async function createSpaghettiConCarne(categories: any, dishes: any, tags: any) {

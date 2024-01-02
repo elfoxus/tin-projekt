@@ -5,19 +5,6 @@
   --main-with-opacity: rgba(23,23,23,0.85);
 }
 
-body {
-  height: 100svh;
-  font-family: 'Abhaya Libre', serif;
-  margin: 0px;
-  /*color: var(--main-color); !* default color *!*/
-  position: relative;
-  /*background: linear-gradient(to bottom, #020111 10%, #3a3a52 100%);*/
-  /*background: linear-gradient(to bottom, #071B26 0%,#071B26 30%,#8A3B12 80%,#240E03 100%);*/
-  /*background: linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%);*/
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 #root {
   display: flex;
   flex-direction: column;
