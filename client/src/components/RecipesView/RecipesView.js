@@ -11,7 +11,7 @@ const RecipesView = ({url, title = "", text = ""}) => {
         const [recipes, setRecipes] = useState([]);
         const [page, setPage] = useState(1);
         const [pageCount, setPageCount] = useState(0); // recipes.length / pageSize
-        const pageSize = 12;
+        const pageSize = 6; // number of recipes per page
         const [pageRecipes, setPageRecipes] = useState([]);
 
         useEffect(() => {

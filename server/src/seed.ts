@@ -13,13 +13,245 @@ async function createData() {
     const dishes = await createDishes();
     const categories = await createCategories();
     const tags = await createTags();
+
+    const spaghetti_vege = await createSpaghettiVege(categories, dishes, tags);
+    const spaghetti_con_carne = await createSpaghettiConCarne(categories, dishes, tags);
+    const matchaCheesecake = await createMatchaCheesecake(categories, dishes, tags);
+    const scrambledEggs = await createScrambledEggs(categories, dishes, tags);
+    const ketoPancake = await createKetoPancake(categories, dishes, tags);
+    const ciastoDyniowe = await createCiastoDyniowe(categories, dishes, tags);
+    const goldenMilk = await createGoldenMilk(categories, dishes, tags);
+
+    const comment = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
+    const comment2 = await createComment(spaghetti_con_carne.id, user2.username, "Pyszny przepis! Zrobię na pewno nie jeden raz!");
+    const comment3 = await createComment(spaghetti_vege.id, user1.username, "Dobra bezmięsna opcja. Polecam");
+    const comment4 = await createComment(spaghetti_vege.id, user2.username, "Zrobiłem i jestem zadowolony. Polecam");
+    const comment5 = await createComment(spaghetti_vege.id, user3.username, "Dobre, ale nie dla mnie");
+
+    const favourites = await addToFavourites(spaghetti_con_carne.id, user1.id);
+    const favourites2 = await addToFavourites(spaghetti_con_carne.id, user2.id);
+    const favourites3 = await addToFavourites(spaghetti_vege.id, user3.id);
+
+    const rating1 = await addRating(spaghetti_con_carne.id, user1.id, 5);
+    const rating2 = await addRating(spaghetti_con_carne.id, user2.id, 4);
+    const rating3 = await addRating(spaghetti_con_carne.id, user3.id, 5);
+    const rating4 = await addRating(spaghetti_vege.id, user1.id, 5);
+    const rating5 = await addRating(spaghetti_vege.id, user2.id, 4);
+    const rating6 = await addRating(spaghetti_vege.id, user3.id, 2);
+
+    console.log("Fake data created")
+}
+
+
+async function createGoldenMilk(categories: any, dishes: any, tags: any) {
+    const goldenMilk = await createRecipe("Złote mleko",
+        0,
+        10,
+        0,
+        "Napój o właściwościach prozdrowotnych.",
+        2,
+        "golden-milk",
+        [categories.vegetarian, categories.vegan, categories.lactose_free],
+        [dishes.drink],
+        []);
+
+    const goldenMilkSteps = await createRecipeSteps(goldenMilk.id, [
+        {no: 1, description: "Wszystkie składniki umieścić w garnku i podgrzewać, aż się zagotują."},
+        {no: 2, description: "Podawać ciepłe."},
+    ])
+
+    const goldenMilkIngredients:{id: number, name: string}[] = await createRecipeIngredients(goldenMilk.id, [
+        "1 szklanka mleka roślinnego",
+        "1 łyżeczka kurkumy",
+        "1 łyżeczka miodu",
+        "1 łyżka oleju kokosowego",
+        "1 łyżeczka imbiru",
+        "1 łyżeczka cynamonu",
+        "1 łyżeczka kardamonu",
+        "szczypta pieprzu"
+    ])
+
+    return goldenMilk;
+}
+
+async function createCiastoDyniowe(categories: any, dishes: any, tags: any) {
+    const ciastoDyniowe = await createRecipe("Ciasto dyniowe z herbatą",
+        2,
+        0,
+        0,
+        "Pyszne ciasto dyniowe z domieszką herbaty.",
+        10,
+        "ciasto-dyniowe",
+        [categories.vegetarian, categories.vegan],
+        [dishes.dessert],
+        []);
+
+    const ciastoDynioweSteps = await createRecipeSteps(ciastoDyniowe.id, [
+        {no: 1, description: "Dynię obrać, pokroić w kostkę i ugotować na parze."},
+        {no: 2, description: "W międzyczasie zalać herbatę wrzątkiem i odstawić do ostygnięcia."},
+        {no: 3, description: "Ostudzoną dynię zmiksować na gładką masę."},
+        {no: 4, description: "Wymieszać wszystkie mokre składniki i zblendować"},
+        {no: 5, description: "Wymieszać wszystkie suche składniki i dodać do nich mokre."},
+        {no: 6, description: "Wylać ciasto do formy i piec w 180 stopniach przez 50-60 minut."},
+    ])
+
+    const ciastoDynioweIngredients:{id: number, name: string}[] = await createRecipeIngredients(ciastoDyniowe.id, [
+        "2 szklanki mąki pszennej",
+        "1 łyżeczka proszku do pieczenia",
+        "1/2 łyżeczka sody",
+        "1/3 łyżeczki soli",
+        "1 szklanka puree z dyni",
+        "3/4 szklanki cukru trzcinowego",
+        "1/2 szklanki oleju",
+        "1/3 szklanki mocnej herbaty Earl Grey",
+        "2 łyżki octu jabłkowego"
+    ])
+
+    return ciastoDyniowe;
+}
+
+async function createKetoPancake(categories: any, dishes: any, tags: any) {
+    const ketoPancake = await createRecipe("Naleśniki ketogeniczne",
+        0,
+        20,
+        0,
+        "Naleśniki bez mąki, bez cukru, bez glutenu, bez węglowodanów",
+        2,
+        "keto-pancake",
+        [categories.keto],
+        [dishes.breakfast, dishes.dessert],
+        [tags.eggs]);
+
+    const ketoPancakeSteps = await createRecipeSteps(ketoPancake.id, [
+        {no: 1, description: "Wszystkie składniki naleśników umieścić w blenderze i zmiksować na gładką masę."},
+        {no: 2, description: "Na patelni rozgrzać olej kokosowy i smażyć naleśniki z obu stron na złoty kolor."},
+    ])
+
+    const ketoPancakeIngredients:{id: number, name: string}[] = await createRecipeIngredients(ketoPancake.id, [
+        "3 jajka", "3 łyżeczki mascarpone", "1 łyżeczka oleju kokosowego"
+    ]);
+
+    return ketoPancake;
+}
+
+async function createScrambledEggs(categories: any, dishes: any, tags: any) {
+    const scrambledEggs = await createRecipe("Jajecznica",
+        0,
+        10,
+        0,
+        "Klasyczna jajecznica z cebulą i szczypiorkiem",
+        2,
+        "jajecznica",
+        [categories.meat],
+        [dishes.breakfast, dishes.dinner],
+        [tags.eggs, tags.onion]);
+    const scrambledEggsSteps = await createRecipeSteps(scrambledEggs.id, [
+        {no: 1, description: "Cebulę pokroić w kostkę, szczypiorek posiekać."},
+        {no: 2, description: "Na patelni rozgrzać olej, dodać cebulę i smażyć, aż się zeszkli."},
+        {no: 3, description: "Jajka roztrzepać z mlekiem, solą i pieprzem."},
+        {no: 4, description: "Dodać do cebuli i smażyć, mieszając, aż się zetną."},
+        {no: 5, description: "Na koniec dodać szczypiorek."},
+        {no: 6, description: "Podawać z chlebem."}
+    ]);
+    const scrambledEggsIngredients:{id: number, name: string}[] = await createRecipeIngredients(scrambledEggs.id, [
+        "3 jajka",
+        "1 łyżka mleka",
+        "1 cebula",
+        "1 łyżka oleju",
+        "1 łyżka posiekanego szczypiorku",
+        "sól",
+        "pieprz"
+    ]);
+    return scrambledEggs;
+}
+
+async function createMatchaCheesecake(categories: any, dishes: any, tags: any) {
+    const matchaCheesecake = await createRecipe("Sernik matcha",
+        2,
+        0,
+        0,
+        "Pyszny sernik w wydaniu azjatyckim o smaku herbaty matcha.",
+        10,
+        "matcha-cheesecake",
+        [categories.high_protein],
+        [dishes.dessert],
+        [tags.eggs, tags.cheese]);
+    const matchaCheesecakeSteps = await createRecipeSteps(matchaCheesecake.id, [
+        {no: 1, description: "Rozgnieść herbatniki. Wymieszać z roztopionym masłem i wyłożyć na dno tortownicy."},
+        {no: 2, description: "Matchę wymieszać z 2 łyżkami gorącej wody."},
+        {no: 3, description: "Ser miksować w misce 2-3 minuty, aby uzyskać jednolitą, napowietrzoną masę"},
+        {no: 4, description: "Dodać cukier"},
+        {no: 5, description: "Dodawać jajka po jednym, zmniejszyć obroty miksera"},
+        {no: 6, description: "Dodać śmietanki"},
+        {no: 7, description: "Dodać matchę"},
+        {no: 8, description: "Dodać eksktrakt waniliowy"},
+        {no: 9, description: "Dodać mąkę i wymieszać dokładnie łyżką"},
+        {no: 10, description: "Wylać masę na herbatniki"},
+        {no: 11, description: "Formę ustawić w kąpieli wodnej. Użyć gorącej wody"},
+        {no: 12, description: "Przykryć formę folią aluminiową"},
+        {no: 13, description: "Piekarnik powinien być nagrzany do 170 stopni. Piec w tej temperaturze przez 15 minut. Następnie obniżyć ją do 120 stopni i piec kolejne 45-60 minut."},
+        {no: 14, description: "Po upieczeniu wyjąć z piekarnika i ostudzić. Następnie wstawić do lodówki na kilka godzin."}
+    ]);
+    const matchaCheesecakeIngredients:{id: number, name: string}[] = await createRecipeIngredients(matchaCheesecake.id, [
+        "200g herbatników",
+        "100g masła",
+        "1kg zmielonego twarogu",
+        "200g cukru",
+        "6 jajek",
+        "200ml śmietanki 30%",
+        "2 łyżki herbaty matcha",
+        "1 łyżeczka ekstraktu waniliowego",
+        "4 łyżki mąki",
+        "2 łyżki gorącej wody"
+    ]);
+}
+
+async function createSpaghettiConCarne(categories: any, dishes: any, tags: any) {
+    const spaghetti_con_carne = await createRecipe("Spaghetti z mięsem",
+        0,
+        30,
+        0,
+        "Klasyczne spaghetti z mięsem mielonym i sosem pomidorowym",
+        4,
+        "spaghetti-con-carne",
+        [categories.meat],
+        [dishes.dinner, dishes.main_dishes],
+        [tags.tomato, tags.mushrooms, tags.onion, tags.garlic, tags.pasta, tags.cheese, tags.beef]);
+    const spaghetti_con_carne_steps = await createRecipeSteps(spaghetti_con_carne.id, [
+        {no: 1, description: "Włącz patelnię na bardzo niski ogień. Dodaj oliwę oraz zioła prowansalskie. W momenci kiedy zioła zaczną pachnieć, zdejmij do miski."},
+        {no: 2, description: "Cebulę i czosnek posiekaj. Na patelni rozgrzej oliwę, dodaj cebulę i smaż przez 2 minuty. Dodaj czosnek i smaż przez kolejną minutę."},
+        {no: 3, description: "Zdejmij z ognia i przełóż do miski."},
+        {no: 4, description: "Na tej samej patelni podsmaż mięso mielone. Dodaj do cebuli i czosnku."},
+        {no: 5, description: "Dodaj passatę pomidorową. Gotuj przez 10 minut."},
+        {no: 6, description: "Makaron ugotuj al dente w osolonej wodzie. Odcedź i wymieszaj z sosem."},
+        {no: 7, description: "Podawaj z posypanymi płatkami drożdżowymi lub startym serem i świeżą bazylią."}
+    ]);
+
+    const spaghetti_con_carne_ingredients:{id: number, name: string}[] = await createRecipeIngredients(spaghetti_con_carne.id, [
+        "0,5kg mięsa mielonego",
+        "1 cebula",
+        "2 ząbki czosnku",
+        "1 butelka passaty pomidorowej",
+        "2 łyżeczki ziół prowansalskich do sosu",
+        "parmezan do posypania lub płatki drożdżowe",
+        "sól",
+        "pieprz",
+        "oliwa z oliwek do sosu",
+        "makaron spaghetti lub inny",
+        "świeża bazylia do posypania"
+    ]);
+
+    return spaghetti_con_carne;
+}
+
+async function createSpaghettiVege(categories: any, dishes: any, tags: any) {
     const spaghetti_vege = await createRecipe("Spaghetti wegetariańskie",
         0,
         30,
         0,
-        "blabla",
+        "Wegetariańska wersja spaghetti bolognese",
         4,
-        "kot",
+        "veganese",
         [categories.vegetarian],
         [dishes.dinner, dishes.main_dishes],
         [tags.tomato, tags.mushrooms, tags.onion, tags.garlic, tags.pasta, tags.cheese]);
@@ -56,56 +288,8 @@ async function createData() {
         {no: 7, description: "Makaron ugotuj al dente w osolonej wodzie. Odcedź i wymieszaj z sosem."},
         {no: 8, description: "Podawaj z posypanymi płatkami drożdżowymi i świeżą bazylią."}
     ]);
-    const spaghetti_con_carne = await createRecipe("Spaghetti z mięsem",
-        0,
-        30,
-        0,
-        "blabla",
-        4,
-        "kot",
-        [categories.meat],
-        [dishes.dinner, dishes.main_dishes],
-        [tags.tomato, tags.mushrooms, tags.onion, tags.garlic, tags.pasta, tags.cheese, tags.beef]);
-    const spaghetti_con_carne_steps = await createRecipeSteps(spaghetti_con_carne.id, [
-        {no: 1, description: "Włącz patelnię na bardzo niski ogień. Dodaj oliwę oraz zioła prowansalskie. W momenci kiedy zioła zaczną pachnieć, zdejmij do miski."},
-        {no: 2, description: "Cebulę i czosnek posiekaj. Na patelni rozgrzej oliwę, dodaj cebulę i smaż przez 2 minuty. Dodaj czosnek i smaż przez kolejną minutę."},
-        {no: 3, description: "Zdejmij z ognia i przełóż do miski."},
-        {no: 4, description: "Na tej samej patelni podsmaż mięso mielone. Dodaj do cebuli i czosnku."},
-        {no: 5, description: "Dodaj passatę pomidorową. Gotuj przez 10 minut."},
-        {no: 6, description: "Makaron ugotuj al dente w osolonej wodzie. Odcedź i wymieszaj z sosem."},
-        {no: 7, description: "Podawaj z posypanymi płatkami drożdżowymi lub startym serem i świeżą bazylią."}
-    ]);
-    const comment = await createComment(spaghetti_con_carne.id, user1.username, "Bardzo dobre");
-    const comment2 = await createComment(spaghetti_con_carne.id, user2.username, "Pyszny przepis! Zrobię na pewno nie jeden raz!");
-    const comment3 = await createComment(spaghetti_vege.id, user1.username, "Dobra bezmięsna opcja. Polecam");
-    const comment4 = await createComment(spaghetti_vege.id, user2.username, "Zrobiłem i jestem zadowolony. Polecam");
-    const comment5 = await createComment(spaghetti_vege.id, user3.username, "Dobre, ale nie dla mnie");
 
-    const favourites = await addToFavourites(spaghetti_con_carne.id, user1.id);
-    const favourites2 = await addToFavourites(spaghetti_con_carne.id, user2.id);
-    const favourites3 = await addToFavourites(spaghetti_vege.id, user3.id);
-
-    const rating1 = await addRating(spaghetti_con_carne.id, user1.id, 5);
-    const rating2 = await addRating(spaghetti_con_carne.id, user2.id, 4);
-    const rating3 = await addRating(spaghetti_con_carne.id, user3.id, 5);
-    const rating4 = await addRating(spaghetti_vege.id, user1.id, 5);
-    const rating5 = await addRating(spaghetti_vege.id, user2.id, 4);
-    const rating6 = await addRating(spaghetti_vege.id, user3.id, 2);
-
-    const spaghetti_con_carne_ingredients:{id: number, name: string}[] = await createRecipeIngredients(spaghetti_con_carne.id, [
-        "0,5kg mięsa mielonego",
-        "1 cebula",
-        "2 ząbki czosnku",
-        "1 butelka passaty pomidorowej",
-        "2 łyżeczki ziół prowansalskich do sosu",
-        "parmezan do posypania lub płatki drożdżowe",
-        "sól",
-        "pieprz",
-        "oliwa z oliwek do sosu",
-        "makaron spaghetti lub inny",
-        "świeża bazylia do posypania"
-    ]);
-    console.log("Fake data created")
+    return spaghetti_vege;
 }
 
 async function addRating(recipeId: number, userId: number, rating: number) {
