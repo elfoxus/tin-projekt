@@ -39,21 +39,21 @@ npm run start-docker
 Do uruchomienia należy dodać również plik `.env` w folderze `server` z następującą zawartością:
 
 ```dotenv
-MYSQL_HOST= # adres hosta bazy danych
-MYSQL_PORT= # port bazy danych
-MYSQL_USER= # użytkownik bazy danych
-MYSQL_PASSWORD= # hasło użytkownika bazy danych
-MYSQL_DATABASE= # nazwa bazy danych
-MYSQL_ROOT_PASSWORD= # hasło roota bazy danych
-SERVER_PORT= # port backendu
-APP_URL= # adres backendu
-CLIENT_URL= # adres frontendu
+MYSQL_HOST= # adres hosta bazy danych np. `127.0.0.1`
+MYSQL_PORT= # port bazy danych np. 3306
+MYSQL_USER= # użytkownik bazy danych np. node
+MYSQL_PASSWORD= # hasło użytkownika bazy danych recipespass 
+MYSQL_DATABASE= # nazwa bazy danych np. recipes
+MYSQL_ROOT_PASSWORD= # hasło roota bazy danych np. rootpass
+SERVER_PORT= # port backendu np. 3001
+APP_URL= # adres backendu, np. http://localhost:${SERVER_PORT}/
+CLIENT_URL= # adres frontendu np. http://localhost:3000 - dev, http://localhost:${SERVER_PORT} - prod
 DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
 
-EMAIL_USER= # adres email do wysyłania maili
+EMAIL_USER= # adres email do wysyłania maili np. email@domena.xx
 EMAIL_PASS= # hasło email do wysyłania maili
-EMAIL_HOST= # adres hosta email
-EMAIL_PORT= # port hosta email
+EMAIL_HOST= # adres hosta email np. smtp.domena.xx
+EMAIL_PORT= # port hosta email np. 587
 
 ACCESS_TOKEN_SECRET= # sekret JWT, wygenerować np. za pomocą crypto.randomBytes(64).toString('hex') <- nodejs
 REFRESH_TOKEN_SECRET= # sekret JWT
@@ -61,6 +61,9 @@ REFRESH_TOKEN_SECRET= # sekret JWT
 
 Plik ten jest wykorzystywany przy użyciu docker compose, jak i w przypadku uruchomienia z poziomu NodeJS 
 w środowisku developerskim.
+
+Plik ten musi być utworzony, aby aplikacja działała poprawnie.
+Do testów można wykorzystać swoje prywatne konto mailowe (testowałem z ze skrzynką onet.pl, z gmail miałem problem z połączeniem).
 
 Spowoduje to uruchomienie kontenerów Dockera z aplikacją backendową oraz bazą danych MySQL.
 
